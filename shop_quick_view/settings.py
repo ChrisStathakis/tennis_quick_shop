@@ -12,7 +12,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-PRODUCTION = True
+PRODUCTION = False
 TEST_POSTGRES = False
 
 

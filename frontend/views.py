@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404, redirect, render, HttpResponseRe
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import logout
 from django.db.models import Sum
+from django.contrib import messages
 from django.conf import settings
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -71,7 +72,7 @@ class CostumerListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(CostumerListView, self).get_context_data(**kwargs)
-        page_title, back_url = 'Πελατες', reverse('costumers:costumer_homepage')
+        page_title, back_url = 'Πελατες', reverse('costumer_homepage')
         queryset_table = CostumerTable(self.object_list)
         table_title, create_url = 'Λίστα', reverse('costumers_create')
         extra_buttons = True
@@ -173,7 +174,10 @@ class CreatePaymentFromCostumerView(MyFormMixin, CreateView):
 @staff_member_required
 def delete_costumer_view(request, pk):
     costumer = get_object_or_404(Costumer, id=pk)
-    costumer.delete()
+    try:
+        costumer.delete()
+    except:
+        messages.warning(request,' Δεν μπορει να διαγραφει!')
     return redirect(reverse('costumer_list'))
 
 
