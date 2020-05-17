@@ -5,9 +5,100 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1480b706-c3a3-4352-8915-cfbc3558cf25" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/templates/analysis/homepage.html" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/templates/analysis/homepage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0002_auto_20190830_1023.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0003_auto_20200117_1839.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0004_auto_20200117_1848.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0005_auto_20200123_1927.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0006_costumerdetails_invoiceitem_paymentinvoice.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0007_paymentinvoice_costumer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0008_auto_20200305_0839.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0009_auto_20200305_1359.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0010_auto_20200305_1451.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0011_auto_20200306_0756.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0012_paymentinvoice_order_type.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0013_auto_20200306_1714.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0014_auto_20200307_0641.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0015_auto_20200307_0831.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0016_auto_20200307_1427.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0017_auto_20200307_1434.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0018_costumerdetails_phone.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0019_paymentinvoice_notes.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0020_auto_20200308_1017.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0021_auto_20200308_1104.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0022_auto_20200308_1141.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0023_auto_20200308_1408.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0024_auto_20200308_1417.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0025_auto_20200309_0624.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0026_auto_20200309_0628.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0027_auto_20200405_1615.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0028_auto_20200405_1649.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/costumers/migrations/0029_auto_20200515_0750.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_27_1.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_backup.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/db_demo.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db_demo.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shop_quick_view/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop_quick_view/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/migrations/0002_auto_20200515_0750.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/templates/include/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/templates/include/navbar.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/general_expenses/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/general_expenses/migrations/0002_auto_20200117_1839.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/general_expenses/migrations/0003_generalexpense_paid_value.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/incomes/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/incomes/migrations/0002_auto_20200114_0759.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/orders/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/orders/migrations/0002_auto_20200308_1408.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/orders/migrations/0003_order_favorite.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/payroll/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/payroll/migrations/0002_auto_20200107_1155.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/payroll/migrations/0003_auto_20200309_0624.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/payroll/migrations/0004_auto_20200309_0628.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/payroll/migrations/0005_personschedule.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/payroll/migrations/0006_auto_20200515_0750.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0002_product_active.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0003_auto_20190913_1201.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0004_auto_20190913_1925.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0005_auto_20190913_2031.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0006_auto_20190917_1029.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0007_auto_20190917_1035.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0008_auto_20190920_1007.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0009_auto_20190921_1907.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0010_auto_20190921_1916.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0011_auto_20191207_1148.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0012_remove_productvendor_taxes_value.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0013_productvendor_taxes_value.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0014_auto_20191207_1155.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0015_product_margin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0016_auto_20191214_1935.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0017_productvendor_taxes_modifier.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0018_auto_20200114_0759.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0019_auto_20200117_1839.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0020_auto_20200123_1927.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0021_auto_20200203_1006.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0022_auto_20200215_1157.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0023_auto_20200306_0756.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0024_auto_20200306_1714.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0025_auto_20200308_1104.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendors/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendors/migrations/0002_payment.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendors/migrations/0003_auto_20190830_1023.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendors/migrations/0004_auto_20190907_1938.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendors/migrations/0005_auto_20190910_1206.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendors/migrations/0006_auto_20190910_1952.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendors/migrations/0007_auto_20190913_1925.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendors/migrations/0008_auto_20190917_1135.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendors/migrations/0009_auto_20190917_1149.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendors/migrations/0010_auto_20190917_1150.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendors/migrations/0011_auto_20190917_1759.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendors/migrations/0012_auto_20190918_1234.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendors/migrations/0013_auto_20190921_1907.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendors/migrations/0014_auto_20191109_1929.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendors/migrations/0015_auto_20191207_1102.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendors/templates/vendors/homepage.html" beforeDir="false" afterPath="$PROJECT_DIR$/vendors/templates/vendors/homepage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendors/templates/vendors/update_vendor.html" beforeDir="false" afterPath="$PROJECT_DIR$/vendors/templates/vendors/update_vendor.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,13 +113,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/frontend/views.py">
+        <entry file="file://$PROJECT_DIR$/analysis/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="179" column="59" selection-start-line="179" selection-start-column="59" selection-end-line="179" selection-end-column="59" />
-              <folding>
-                <element signature="e#0#91#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-187">
+              <caret line="16" column="43" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
             </state>
           </provider>
         </entry>
@@ -74,6 +162,7 @@
       <find>delete</find>
       <find>payment-update/</find>
       <find>print</find>
+      <find>Καρτ</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -82,10 +171,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/costumers/templates/update_invoice.html" />
-        <option value="$PROJECT_DIR$/costumers/ajax_views.py" />
-        <option value="$PROJECT_DIR$/costumers/admin.py" />
-        <option value="$PROJECT_DIR$/frontend/templates/costumer_homepage.html" />
         <option value="$PROJECT_DIR$/costumers/static/costumers/style.css" />
         <option value="$PROJECT_DIR$/costumers/templates/costumers/ajax/order_items.html" />
         <option value="$PROJECT_DIR$/costumers/forms.py" />
@@ -128,11 +213,15 @@
         <option value="$PROJECT_DIR$/costumers/templates/costumers/update_invoice.html" />
         <option value="$PROJECT_DIR$/costumers/views.py" />
         <option value="$PROJECT_DIR$/costumers/templates/costumers/print/index.html" />
-        <option value="$PROJECT_DIR$/frontend/templates/include/navbar.html" />
         <option value="$PROJECT_DIR$/payroll/templates/payroll/homepage.html" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/shop_quick_view/settings.py" />
         <option value="$PROJECT_DIR$/frontend/views.py" />
+        <option value="$PROJECT_DIR$/vendors/templates/vendors/homepage.html" />
+        <option value="$PROJECT_DIR$/vendors/templates/vendors/update_vendor.html" />
+        <option value="$PROJECT_DIR$/frontend/templates/include/navbar.html" />
+        <option value="$PROJECT_DIR$/analysis/templates/analysis/homepage.html" />
+        <option value="$PROJECT_DIR$/analysis/views.py" />
       </list>
     </option>
   </component>
@@ -170,7 +259,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -178,15 +266,11 @@
               <item name="tennis_quick_shop" type="b2602c69:ProjectViewProjectNode" />
               <item name="tennis_quick_shop" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="tennis_quick_shop" type="b2602c69:ProjectViewProjectNode" />
-              <item name="tennis_quick_shop" type="462c0819:PsiDirectoryNode" />
-              <item name="frontend" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -262,7 +346,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -270,8 +354,8 @@
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.33242133" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15885417" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.33156216" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15885417" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="3" />
@@ -282,34 +366,34 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="manage.py@shop_quick_view" order="8" weight="0.32831737" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="manage.py@shop_quick_view" order="8" weight="0.32831737" />
     </layout>
     <layout-to-restore>
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="right" id="SciView" order="3" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15885417" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15885417" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="right" id="Database" order="4" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.27633378" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="right" id="Database" order="4" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="right" id="SciView" order="3" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="manage.py@shop_quick_view" order="13" visible="true" weight="0.32831737" />
-      <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info id="Favorites" order="2" side_tool="true" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -354,23 +438,10 @@
           <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="10" />
+      <option name="time" value="11" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Procfile">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shop_quick_view/wsgi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="2" selection-start-line="8" selection-start-column="2" selection-end-line="8" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/myData/views.py" />
-    <entry file="file://$PROJECT_DIR$/myData/templates/myData/home.html" />
-    <entry file="file://$PROJECT_DIR$/myData/urls.py" />
     <entry file="file://$PROJECT_DIR$/incomes/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -496,13 +567,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/templates/dashboard.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="27" lean-forward="true" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/frontend/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -582,13 +646,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/templates/include/navbar.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="61" column="10" lean-forward="true" selection-start-line="61" selection-start-column="10" selection-end-line="61" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/payroll/templates/payroll/homepage.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="544">
@@ -640,13 +697,68 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/vendors/templates/vendors/homepage.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="543">
+          <caret line="51" column="25" selection-start-line="51" selection-start-column="25" selection-end-line="51" selection-end-column="25" />
+          <folding>
+            <element signature="n#div#0;n#div#0;n#div#0;n#!!top" />
+            <element signature="n#div#1;n#div#0;n#div#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendors/templates/vendors/update_vendor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="53" column="150" selection-start-line="53" selection-start-column="150" selection-end-line="53" selection-end-column="150" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendors/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1071">
+          <folding>
+            <element signature="e#0#76#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/templates/include/navbar.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="22" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/templates/dashboard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1207">
+          <caret line="10" column="29" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/frontend/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
+        <state relative-caret-position="3043">
           <caret line="179" column="59" selection-start-line="179" selection-start-column="59" selection-end-line="179" selection-end-column="59" />
           <folding>
             <element signature="e#0#91#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis/templates/analysis/homepage.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-187">
+          <caret line="16" column="43" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
         </state>
       </provider>
     </entry>

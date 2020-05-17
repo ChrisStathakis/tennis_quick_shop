@@ -51,7 +51,7 @@
                             </div>
                             <br /> <br/>
                             <a href='{% url "vendors:notes" object.id %}' class='btn btn-info'>Σημειωσεις</a>
-                            <a href='{% url "vendors:vendor_card" object.id %}' class='btn btn-info pull-right'>Καρτελα</a>
+                            {% comment %}<a href='{% url "vendors:vendor_card" object.id %}' class='btn btn-info pull-right'>Καρτελα</a> {% endcomment %}
                     </div>
                 </div>
             </div>

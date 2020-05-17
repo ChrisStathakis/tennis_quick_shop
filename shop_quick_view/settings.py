@@ -12,7 +12,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-PRODUCTION = False
+PRODUCTION = True
 TEST_POSTGRES = False
 
 
@@ -20,7 +20,7 @@ TEST_POSTGRES = False
 # SHOW_VENDORS = config('SHOW_VENDORS')
 # SHOW_PAYROLL = config('SHOW_PAYROLL')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['tenis-quick-shop.herokuapp.com'] if PRODUCTION else ['*']
 
 
 # Application definition

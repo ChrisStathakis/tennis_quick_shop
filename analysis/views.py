@@ -1,13 +1,12 @@
 from django.db.models import Sum, FloatField, F
 from django.db.models.functions import TruncMonth
-from django.shortcuts import render, reverse, get_object_or_404, redirect
-from django.contrib import messages
-from django.urls import reverse_lazy
-from django.views.generic import ListView, UpdateView, CreateView, TemplateView, DetailView
+from django.shortcuts import  reverse
+
+from django.views.generic import ListView, TemplateView
 from django.utils.decorators import method_decorator
 from django.contrib.admin.views.decorators import staff_member_required
 from django.conf import settings
-from django_tables2 import RequestConfig
+
 
 from operator import attrgetter
 from itertools import chain
@@ -15,7 +14,7 @@ from itertools import chain
 from incomes.models import Income
 from products.models import Product, ProductVendor
 from payroll.models import Bill, Payroll
-from vendors.models import Payment, Invoice, Vendor
+from vendors.models import Payment, Invoice
 from general_expenses.models import GeneralExpense
 from .tools import sort_months
 
