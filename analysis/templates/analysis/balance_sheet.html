@@ -1,0 +1,498 @@
+{% extends 'dashboard.html' %}  {% load render_table from django_tables2 %}
+
+
+{% block content %}
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                    <h4>Συνολική Εικόνα</h4>
+                        <div class="row">
+                            <div class="col-6"> <h5>Διαφορα με Υποχρεωσεις ==> {{ diff_obligations }} {{ currency }}</h5></div>
+                            <div class="col-6"><h5>Διαφορα με πληρωμες ==> {{ diff_paid }} {{ currency }}</h5></div>
+                        </div>
+                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            Filters
+                        </a>
+                        <a href="{{ request.path }}" class="btn btn-danger">Καθαρισμος</a>
+                        <a href="{{ back_url }}" class="btn btn-warning pull-right">Επιστροφη</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="collapse" id="collapseExample">
+                            <form method="get" class="form">
+                                 <div class="row">
+                                      {% include 'filters/my_filters.html' %}
+                                 </div>
+                                 <button type="submit" class="btn btn-"><i class="fa fa-save"></i> Αποθηκευση </button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">
+                    <div class='row'>
+                        <div class='col-md-4'>
+                            <canvas id="expenseChart" width="500" height="500" style='height:400px'></canvas>
+                        </div>
+                         <div class='col-md-8' >
+                             <canvas id="lineChart" width="500" height="500"></canvas>
+                        </div>
+                    </div>
+                    
+                </h4>
+              </div>
+              <div class="card-body">
+                <div class='row'>
+                    <div class='col-md-12'>
+                        <div class="card card-nav-tabs card-plain">
+    <div class="card-header card-header-danger">
+        <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+        <div class="nav-tabs-navigation">
+            <div class="nav-tabs-wrapper">
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home" data-toggle="tab">Αναλυση</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#vendors" data-toggle="tab">Προμηθευτες</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#history" data-toggle="tab">Υπολοιπα Εξοδα</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#incomes" data-toggle="tab">Εσοδα</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div><div class="card-body ">
+        <div class="tab-content text-center">
+            <div class="tab-pane active" id="home">
+                <div class='row'>
+                    <div class='col-md-4'>
+                        <h4>Υποχρεωσεις</h4>
+                        <table class='table'>
+                            <thead>
+                                <tr class='table-danger'>
+                                    <th>Υποχρεωση</th>
+                                    <th>Συνολικό Ποσο</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Προμηθευτες</td>
+                                    <td>{{ invoices_total }} {{ currency }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Λογαριασμοι</td>
+                                    <td>{{ bills_total }} {{ currency }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Μισθοδοσια</td>
+                                    <td>{{ payrolls_total }} {{ currency }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Γενικα Εξοδα</td>
+                                    <td>{{ general_total }} {{ currency }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Συνολο</td>
+                                    <td class="table-warning">{{ totals }} {{ currency }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class='col-md-4'>
+                        <h4>Πληρωμές</h4>
+                        <table class='table'>
+                            <thead>
+                                <tr class='table-info'>
+                                    <th>Υποχρεωση</th>
+                                    <th>Συνολικό Ποσο</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Προμηθευτες</td>
+                                    <td>{{ payments_total }} {{ currency }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Λογαριασμοι</td>
+                                    <td>{{ bills_paid_total}} {{ currency }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Μισθοδοσια</td>
+                                    <td>{{ payrolls_paid_total}} {{ currency }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Γενικα Εξοδα</td>
+                                    <td>{{ general_paid_total }} {{ currency }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Συνολο</td>
+                                    <td class="table-warning">{{ paid_totals }} {{ currency }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class='col-md-4'>
+                        <h4>Εσοδα</h4>
+                        <table class='table'>
+                            <thead>
+                                <tr class='table-success'>
+                                    <th>Τροπος Εσοδου</th>
+                                    <th>#</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class=>
+                                    <th>Συνολο Ζ</th>
+                                    <th>{{ total_z }} {{ currency }}</th>
+                                </tr>
+                                <tr>
+                                    <td>Συνολο POS</td>
+                                    <td>{{ total_pos }} {{ currency }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Συνολο Τιμολογιων</td>
+                                    <td>{{ total_order}} {{ currency }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Μετρητα</td>
+                                    <td>{{ total_cash}} {{ currency }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Συνολο</td>
+                                    <td class="table-success">{{ incomes_total }} {{ currency }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="vendors">
+                 <div class='row'>
+                    <div class='col-md-6'>
+                        <h4>Αναλυση Ανα Μηνα</h4>
+                        <table class='table table-bordered'>
+                            <thead>
+                                <tr>
+                                    <th>Ημερομηνια</th>
+                                    <th class="table-warning">Συνολικα Υποχρεωσεις</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for ele in invoices_per_month %}
+                                    <tr>
+                                        <td>{{ ele.month.month}}/{{ ele.month.year }}</td>
+                                        <td>{{ele.total}} {{ currency }} </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class='col-md-6'>
+                        <h4>Υπολοιπα Ανα Προμηθευτη</h4>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Προμηθευτης</th>
+                                    <th>Αξια Παραστατικών Περιοδου</th>
+                                    <th class="table-danger">Υπολοιπο</th>
+                                </tr>
+                                <tbody>
+                                    {% for vendor in vendors %}
+                                        <tr>
+                                            <td>{{ vendor.vendor__title }}</td>
+                                            <td>{{ vendor.total }} {{ currency }}</td>
+                                            <td>{{ vendor.vendor__balance }} {{ currency }}</td>
+                                        </tr>
+                                    {% endfor %}
+
+                                </tbody>
+                            </thead>
+                        </table>
+                    </div>
+                 </div>
+            </div>
+            <div class="tab-pane" id="history">
+               <div class="row">
+                   <div class="col-md-4">
+                       <h4>Λογαριασμοί</h4>
+                       <table class="table table-bordered">
+                           <thead>
+                                <tr>
+                                    <th>Λογαριασμος</th>
+                                    <th class="table-warning">Υποχρεωσεις</th>
+                                    <th class="table-success">Πληρωμες</th>
+                                </tr>
+                           </thead>
+                           <tbody>
+                            {% for category in bills_per_bill %}
+                                <tr>
+                                    <td>{{ category.category__title }}</td>
+                                    <td>{{ category.total_pay }} {{ currency }}</td>
+                                    <td>{{ category.paid_value }} {{ currency }}</td>
+                                </tr>
+                           {% endfor %}
+                           </tbody>
+                       </table>
+                   </div>
+                   <div class="col-md-4">
+                       <h4>Μισθοδοσια</h4>
+                       <table class="table table-bordered">
+                           <thead>
+                                <tr>
+                                    <th>Υπαλληλος</th>
+                                    <th class="table-warning">Υποχρεωσεις</th>
+                                    <th class="table-success">Πληρωμες</th>
+                                </tr>
+                           </thead>
+                           <tbody>
+                            {% for category in payroll_per_person %}
+                                <tr>
+                                    <td>{{ category.person__title }}</td>
+                                    <td>{{ category.total_pay }} {{ currency }}</td>
+                                    <td>{{ category.paid_value }} {{ currency }}</td>
+                                </tr>
+                           {% endfor %}
+                           </tbody>
+                       </table>
+                   </div><div class="col-md-4">
+                       <h4>Γενικα Εξοδα</h4>
+                       <table class="table table-bordered">
+                           <thead>
+                                <tr>
+                                    <th>Εξοδο</th>
+                                    <th class="table-warning">Υποχρεωσεις</th>
+                                    <th class="table-success">Πληρωμες</th>
+                                </tr>
+                           </thead>
+                           <tbody>
+                            {% for category in expenses_per_category %}
+                                <tr>
+                                    <td>{{ category.category__title }}</td>
+                                    <td>{{ category.total_pay }} {{ currency }}</td>
+                                    <td>{{ category.paid_value }} {{ currency }}</td>
+                                </tr>
+                           {% endfor %}
+                           </tbody>
+                       </table>
+                   </div>
+
+               </div>
+            </div>
+             <div class="tab-pane" id="incomes">
+                 <div class="row">
+                     <div class="col-1"></div>
+                     <div class="col-10">
+                         <table class="table table-bordered">
+                             <thead>
+                                <tr>
+                                    <th>Μηνας</th>
+                                    <th>Συνολο Ζ</th>
+                                    <th>Συνολο POS</th>
+                                    <th>Συνολο Μετρητων</th>
+                                    <th>Συνολο Τιμολογιων</th>
+                                    <th>Συνολο</th>
+                                </tr>
+                             </thead>
+                             <tbody>
+                                {% for income in incomes_per_month_table %}
+                                    <tr>
+                                        <td>{{ income.month }}</td>
+                                        <td>{{ income.total_z }} {{ currency }}</td>
+                                        <td>{{ income.total_pos }} {{ currency }}</td>
+                                        <td>{{ income.total_cash }} {{ currency }}</td>
+                                        <td>{{ income.total_order }} {{ currency }}</td>
+                                        <td class="table-success">{{ income.total }} {{ currency }}</td>
+                                    </tr>
+                                {% endfor %}
+                             </tbody>
+                         </table>
+                     </div>
+                     <div class="col-1"></div>
+                 </div>
+             </div>
+        </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" id="modal_area">
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM=" crossorigin="anonymous"></script>
+    <script>
+var ctx = document.getElementById('totalChart');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Συνολο', 'Συνολο Ζ', 'Συνολο POS', 'Mετρητα', 'Συνολο Τιμ.'],
+        datasets: [{
+            label: '# Σε Ευρω',
+            data: [{{ total }}, {{ total_z }}, {{ total_pos }}, {{ total_cash }}, {{ total_order }}],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'green',
+                'rgba(153, 102, 255, 0.2)'
+                
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)'
+                
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+ctx.height = 400;
+</script>
+
+<script>
+var ctx = document.getElementById('expenseChart');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Υποχρεωσεις Προμηθευτων', 'Υπόλοιπο Προμηθευτων', 'Λογαριασμοι', 'Μισθοδοσια'],
+        datasets: [{
+            label: '# Σε Ευρω',
+            data: [{{ invoices_total }},{{ vendors_remaining }}, {{ bills_total }}, {{ payrolls_total }}],
+            backgroundColor: [
+                'blue',
+                'red',
+                'rgba(255, 206, 86, 0.2)',
+                'green',
+                'rgba(153, 102, 255, 0.2)'
+                
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)'
+                
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+ctx.height = 500;
+</script>
+
+<script>
+var ctx = document.getElementById('lineChart');
+var myChart = new Chart(ctx, {
+    type: 'line',
+		data: {
+			labels: [{% for ele in months %} {% if forloop.last %} '{{ ele }}'{% else %} '{{ele}}', {% endif %} {% endfor %}],
+			datasets: [
+			    {
+				label: 'Εσοδα',
+				backgroundColor: 'green',
+				borderColor: 'green',
+				fill: false,
+				data:[{% for ele in result_per_months %} {% if forloop.last %} {{ ele.income }}{% else %} {{ele.income}}, {% endif %} {% endfor %}],
+            },
+            {
+				label: 'Συνολο Εξοδων',
+				backgroundColor: 'red',
+				borderColor: 'red',
+				fill: false,
+				data:[{% for ele in result_per_months %} {% if forloop.last %} {{ ele.total }}{% else %} {{ele.total}}, {% endif %} {% endfor %}],
+            },
+            {
+				label: 'Λογαριαμοί',
+				backgroundColor: 'blue',
+				borderColor: 'blue',
+				fill: false,
+				data:[{% for ele in result_per_months %} {% if forloop.last %} {{ ele.bills }}{% else %} {{ele.bills}}, {% endif %} {% endfor %}],
+			},
+            {
+				label: 'Μισθοδοσια',
+				backgroundColor: 'teal',
+				borderColor: 'teal',
+				fill: false,
+				data:[{% for ele in result_per_months %} {% if forloop.last %} {{ ele.payroll }}{% else %} {{ele.payroll}}, {% endif %} {% endfor %}],
+			},
+			    {
+				label: 'Προμηθευτες',
+				backgroundColor: 'yellow',
+				borderColor: 'yellow',
+				fill: false,
+				data:[{% for ele in result_per_months %} {% if forloop.last %} {{ ele.invoice }}{% else %} {{ele.invoice}}, {% endif %} {% endfor %}],
+			},
+
+
+
+            {
+				label: 'Γενικα Εξοδα',
+				backgroundColor: 'teal',
+				borderColor: 'teal',
+				fill: false,
+				data:[{% for ele in result_per_months %} {% if forloop.last %} {{ ele.generic }}{% else %} {{ele.generic}}, {% endif %} {% endfor %}],
+			}
+            ]
+		},
+		options: {
+			responsive: true,
+            maintainAspectRatio: false,
+			title: {
+				display: true,
+				text: 'Αναλυση Ανα Μηνα'
+			},
+			scales: {
+				xAxes: [{
+					display: true,
+				}],
+				yAxes: [{
+					display: true,
+					type: 'logarithmic',
+				}]
+			}
+		}
+});
+</script>
+{% endblock %}

@@ -1,0 +1,59 @@
+
+<!-- Modal -->
+<div class="modal fade" id="quick_view_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ instance }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="card card-user">
+              <div class="card-body">
+                <h6>Στοιχεια Προίόντος</h6>
+                <ul class="list-group">
+                    <li class="list-group-item">Sku: {{ instance.sku }} </li>
+                    <li class="list-group-item">Barcode Code: {{ instance.barcode }} %</li>
+                    <li class="list-group-item">Κατηγορίες: {% for category in instance.categories.all %} {{ category.name }}, {% endfor %}</li>
+                    <li class="list-group-item list-group-item-danger">Χαμηλότερη Τιμή: {{ instance.tag_price_buy }}</li>
+                    <li class="list-group-item list-group-item-success">Τιμή Πώλησης {{ instance.tag_final_value }}</li>
+                    <li class="list-group-item ">Ποσοστο Κερδούς: {{ instance.margin }} %</li>
+
+                </ul>
+                <table class='table table-striped'>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Προμηθευτης</th>
+                        <th>Αναλυση Τιμης</th>
+                        <th>Τελική Τιμή</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for vendor in instance.product_vendors.all%}
+                      <tr>
+                        <td>{{ forllop.counter }}</td>
+                        <td>{{ vendor.vendor }}</td>
+                        <td>Καθαρή Αξία--> {{ vendor.tag_value }} | Εκπτωση--> {{ vendor.discount }}%</td>
+                        <td>{{ vendor.tag_final_value }}</td>
+                      <tr>
+                    {% endfor %}
+
+                    </tbody>
+                 </table>
+              </div>
+              <div class="card-footer">
+                  <hr>
+              </div>
+            </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+

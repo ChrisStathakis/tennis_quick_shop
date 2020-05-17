@@ -1,0 +1,36 @@
+{% load zefarak_tags %}
+<div class="col-6">
+    <div class="form-group">
+        <h6>Πληρωμενο</h6>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value="have_"
+                        name="paid_name"
+                        {% if 'have_' in request.GET|get_item:"paid_name" %} checked {% endif %}
+                >
+                Πληρωμενα
+                <span class="form-check-sign">
+                    <span class="check"></span>
+                </span>
+            </label>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value="not_"
+                        name="paid_name"
+                        {% if 'not_' in request.GET|get_item:"paid_name" %} checked {% endif %}
+                >
+                Μη Πληρωμενα
+                <span class="form-check-sign">
+                    <span class="check"></span>
+                </span>
+            </label>
+        </div>
+    </div>
+</div>

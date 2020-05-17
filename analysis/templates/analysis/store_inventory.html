@@ -1,0 +1,48 @@
+{% extends 'dashboard.html' %}  {% load render_table from django_tables2 %}
+
+
+{% block content %}
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h2>Απογραφη</h2>
+                            <h4>Συνολο Αποθηκης ==> {{ products_total.total }} €</h4>
+                        </div>
+                        <div class="card-body">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {% for ele in vendor_products %}
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-header">
+                            {% if ele.taxes_modifier == 'b' %} ΦΠΑ 13% {% endif %}
+                            {% if  ele.taxes_modifier == 'c' %} ΦΠΑ 24% {% endif %}
+                            {% if  ele.taxes_modifier == 'a' %} ΦΠΑ 0% {% endif %}
+
+                        </div>
+                        <div class="card-body">
+                            ΣΥΝΟΛΟ... {{ ele.total }} €
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">Κατεβασμα Αρχείου</div>
+                    <div class="card-body">
+                            <button class="btn btn-info"><i class="fa fa-download"></i> Kατεβασμα.</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

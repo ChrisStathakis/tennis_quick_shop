@@ -1,0 +1,148 @@
+{% extends "dashboard.html" %}
+
+{% block extra_css %}
+    <style>
+        #id_categories {
+            height: 300px;
+        }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <div class="content">
+        <div class='row'>
+            <div class='col-md-12'>
+                <div class='card'>
+                    <div class='card-header'>
+                        <h4>Barcode... {{ object.barcode }} | Sku... {{ object.sku }}</h4>
+                        <a style="display: inline" href="{% url 'edit_product_list' %}" class="btn btn-warning pull-right">Επιστροφη</a>
+                    </div>
+                    <div class='card-body'>
+                        Κατηγορίες... {% for category in object.categories.all %} {{ category }} {% empty %} Δε έχετε επιλέξει κατηγορίες. {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-md-4'>
+                <div class='card'>
+                    <div class='card-header'>
+                        <h4>Επεξεργασια</h4>
+                        <a href='{% url "edit_product_delete" object.id %}' onclick="return confirm('Εισαι σιγουρος;')" class='btn btn-danger'>Διαγραφη</a>
+                    </div>
+                    <div class='card-body'>
+                        <form method='post' class='form'>
+                            {% csrf_token %} {{form}}
+                            <button type='sumbit' class='btn btn-success' > <i class='fa fa-save'> </i> Αποθηκευση </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class='col-md-7'>
+                <div class='card'>
+                    <div class='card-header'>
+                        <h4>Επεξεργασια Πρoμηθευτών</h4>
+                    </div>
+
+                    <div class='card-body'>
+                        <table class='table'>
+                            <thead>
+                                <tr>
+                                    <th>Κωδικός Τιμ</th>
+                                    <th>Προμηθευτης</th>
+                                    <th>Καθαρη Αξία</th>
+                                    <th>Εκπτωση</th>
+                                    <th>Επιπλέον Αξία</th>
+                                    <th>Αξια</th>
+                                    <th>#</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for vendor in object.product_vendors.all %}
+                                    <tr>
+                                        <td>{{ vendor.sku|default_if_none:"-" }}</td>
+                                        <td>{{ vendor }}</td>
+                                        <td>{{ vendor.tag_clean_value }}</td>
+                                        <td>{{ vendor.discount }} %</td>
+                                        <td>{{ vendor.tag_added_value}} </td>
+                                        <td>{{ vendor.tag_final_value }}</td>
+                                        <td><a href="{{ vendor.get_edit_url }}" class="btn btn-info"><i class="fa fa-edit"> </i> </a></td>
+                                    </tr>
+                                {% endfor %}
+                                    <tr>
+                                        <td colspan='7'> </td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class='card'>
+                    <div class='card-header'>
+                        <h4>Προσθηκη Προμηθευτη</h4>
+                    </div>
+
+                    <div class='card-body'>
+                        <form method='post' class='form' action='{% url "product_vendor_create" object.id %}'> {% csrf_token %}
+                             {{ product_vendor_form }}
+                             <button type="sumbit" class="btn btn-primary btn-primary"><i class='fa fa-plus'> </i> Προσθηκη Προμηθευτη</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+     
+        </div>
+    </div>
+    <div class="row" id="modal_area"></div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="edit_form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Προσθηκη Προμηθευτη</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method='post' class='form'>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+       </div>
+    </div>
+                          
+
+{% endblock content %}
+
+    {% block extra_js %}
+        <script>
+            $('.edit_button').click(function (evt) {
+                evt.preventDefault();
+                console.log('here');
+                $('#modal_area').empty();
+                const my_btn = $(this);
+                const url = my_btn.attr('data-href');
+                $.ajax({
+                    method: 'GET',
+                    dataType: 'json',
+                    url: url,
+                    success: function (data) {
+                        $('#modal_area').html(data.result);
+                        $('#quick_view_modal').modal('show');
+                    }
+                })
+            })
+        </script>
+
+        {{ product_vendor_form.media }}
+
+{% endblock %}

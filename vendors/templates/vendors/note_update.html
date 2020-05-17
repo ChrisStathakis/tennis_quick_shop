@@ -1,0 +1,70 @@
+{% extends "dashboard.html" %}
+
+{% block extra_css %}
+ {{ form.media }}
+ <style>
+    textarea.form-control{
+        max-height: 400px;
+        width:1800px;
+    }
+ </style>
+ {% endblock %}
+
+{% block content %}
+    <div class='content'>
+            <div class='row'>
+                <div class='col-md-12'>
+                    <div class='card'>
+                        <div class='card-header'>
+                            <h4>Σημειωσεις .... {{ object }} </h4>
+                            <a class='btn btn-danger pull-right' onclick='return confirm("Are you sure")' href="{% url 'vendors:note_delete' object.id %}">Διαγραφη </a>
+                            <a href='{{ back_url }}' class='btn btn-warning PULL-LEFT'>Επιστροφη </a>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+      
+        <div class='row'>
+            <div class='col-md-12'>
+                <div class='card'>
+                    <div class='card-header'><div class='card-title'>Επεξεργασία</div></div>
+                    <div class='card-body'>
+                        <form method='POST'>{% csrf_token %}
+                            {{ form  }}
+                            <button type='submit' class='btn btn-success'><i class='fa fa-save'></i> Αποθηκευση </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class='row' id='modal_area'></div>
+    </div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+<script>
+    $('.quick_view').click(function (evt) {
+        evt.preventDefault();
+        console.log('here')
+        $('#modal_area').empty();
+        const my_btn = $(this);
+        const url = my_btn.attr('data-href');
+        $.ajax({
+            method: 'GET',
+            dataType: 'json',
+            url: url,
+
+            success: function (data) {
+                $('#modal_area').html(data.result);
+                $('#quick_view_modal').modal('show');
+            }
+        })
+    })
+</script>
+
+{% endblock %}

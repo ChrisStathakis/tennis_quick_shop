@@ -1,0 +1,34 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Πελατολογιο</h4>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'costumer_list' %}" class="btn btn-success">Πελατες</a>
+                        <a href="{% url 'orders:home' %}" class="btn btn-primary pull-right">Παραστατικα</a>
+                        <a href="{% url 'orders:payment_home' %}" class="btn btn-info pull-right">Πλhρωμες</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Πελατολογιο</h4>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'costumers:home' %}" class="btn btn-success">Τιμολόγια Πελατών</a>
+                        <a target="_blank" href="/admin/costumers/mycard/" class="btn btn-info pull-right">Προσωπικα Στοιχεια</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+{% endblock %}

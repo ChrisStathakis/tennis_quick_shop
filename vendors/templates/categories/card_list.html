@@ -1,0 +1,129 @@
+{% extends 'dashboard.html' %} {% load render_table from django_tables2 %}
+
+{% block content %}
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <button class="btn btn-primary"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#filters"
+                                aria-expanded="false"
+                                aria-controls="collapseExample"
+                        >Filters
+                        </button>
+                         <a href="{% url 'vendors:category_list' %}" class="btn btn-warning pull-right" style="display: inline">Επιστροφη</a>
+                        <a href="{{ request.path }}" class="btn btn-danger">Καθαρισμος</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="collapse" id="filters">
+                            <form class="form" method="get">
+                             <div class="row">
+                                 <div class="col-6">
+                                     <div class="form-group">
+                                         <label for="searchField">Αναζητηση</label>
+                                         <input
+                                                 type="text"
+                                                 class="form-control"
+                                                 id="searchField"
+                                                 name="search_name"
+                                                 placeholder="Πληκρολογήστε..."
+                                                 {% if request.GET.search_name %}
+                                                    value="{{ request.GET.search_name }}"
+                                                 {% endif %}
+                                         >
+                                     </div>
+                                 </div>
+                                <div class="col-6">
+
+                                </div>
+                                 <div class="col-12">
+                                    <h4>Προμηθευτές</h4>
+
+                                    <div class="row">
+                                         {% for vendor in vendors %}
+                                             <div class="col-3">
+                                                 <div class="form-group">
+                                                    <input
+                                                            name="vendor_name"
+                                                            class="form-check-input"
+                                                            type="checkbox"
+                                                            value="{{ vendor.id }}"
+                                                            id="vendor_{{ vendor.id }}"
+                                                            {% if vendor.id|stringformat:'s' in request.GET.vendor_name %} checked {% endif %}
+                                                    >
+                                                    <label class="form-check-label" for="vendor_{{ vendor.id }}">
+                                                        {{ vendor }}
+                                                    </label>
+                                                 </div>
+                                             </div>
+                                         {% endfor %}
+                                    </div>
+                                 </div>
+                                 <div class="col-6">
+                                     <h4>Υποκατηγοριες</h4>
+                                     {% for cate in category.get_childrens.all %}
+                                        <div class="form-group align-items-center">
+                                            <input
+                                                    name="cate_name"
+                                                    class="form-check-input"
+                                                    type="checkbox"
+                                                    value="{{ cate.id }}"
+                                                    id="cate_{{ cate.id }}"
+                                                    {% if cate.id|stringformat:'s' in request.GET.cate_name %} checked {% endif %}
+                                            >
+                                            <label class="form-check-label" for="cate_{{ cate.id }}">
+                                                {{ cate }}
+                                            </label>
+                                        </div>
+                                     {% endfor %}
+                                 </div>
+                                <button type="submit" class="btn btn-success align-self-center"><i class="fa fa-save"></i> </button>
+                             </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h6>Προϊόντα</h6>
+                    </div>
+                    <div class="card-body">
+                        {% render_table queryset_table %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal_area"></div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $('.quick-view').click(function (evt) {
+            evt.preventDefault();
+            $('#modal_area').empty();
+            const myBtn = $(this);
+            const url = myBtn.attr('data-href');
+            $.ajax({
+                method: 'GET',
+                url: url,
+                dataType: 'json',
+
+                success: function (data) {
+                    $('#modal_area').html(data.result);
+                    $('#quick_view_modal').modal('show');
+                }
+            })
+        })
+    </script>
+{% endblock %}

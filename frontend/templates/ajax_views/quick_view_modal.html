@@ -1,0 +1,143 @@
+
+<!-- Modal -->
+<div class="modal fade" id="quick_view_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ costumer }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card card-user">
+              <div class="card-body">
+                <table class='table'>
+                    <thead>
+                        <tr>
+                            <th>Αξια</th>
+                            <td>#<td>
+                            <th>Αξια</th>
+                            <td>#<td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Επωνυμια</th>
+                            <td>{{ costumer.eponimia}}<td>
+                            <th>Επαγγελμα</th>
+                            <td>{{ costumer.job_description }}<td>  
+                        </tr>
+                        <tr>
+                            <th>Διευθυνση</th>
+                            <td>{{ costumer.address }}<td>
+                            <th>Πολη</th>
+                            <td>{{ costumer.destination_city}}<td>  
+                        </tr>
+                        <tr>
+                            <th>Αφμ</th>
+                            <td>{{ costumer.afm }}<td>
+                            <th>Δου</th>
+                            <td>{{ costumer.doy}}<td>  
+                        </tr>
+                        <tr>
+                            <th>Τροπος Φορτωσης</th>
+                            <td>{{ costumer.loading_place }}<td>
+                            <th>Προορισμος</th>
+                            <td>{{ costumer.job_description }}<td>  
+                        </tr>
+                        <tr>
+                            <th>Μεταφορικο μεσο</th>
+                            <td>{{ costumer.transport }}<td>
+                            <th>Τηλεφωνο</th>
+                            <td>{{ costumer.phone }}<td>  
+                        </tr>
+                    </tbody>
+                </table>
+              </div>
+            </div>
+
+          <div class="card card-user">
+              <div class="card-body">
+                  <p>
+                      <button class="btn btn-warning" data-toggle="collapse" href="#orders_tab" role="button" aria-expanded="false" aria-controls="orders_tab">
+                          Παραστατικα
+                      </button>
+                      <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#payments_tab" aria-expanded="false" aria-controls="payments_tab">
+                          Πληρωμες
+                      </button>
+                  </p>
+
+                  <div class="collapse" id="orders_tab">
+                      <p>Παραστατικά</p>
+                      <ul class="list-group">
+                          {% for order in costumer.orders.all %}
+                          <li class="list-group-item list-group-item-primary">
+                              Ημερομηνία...{{ order.date|date:"d M, Y" }}, {{ order.title }}, Αξία...{{ order.tag_value }}
+
+                              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOrder_{{ order.id }}" aria-expanded="true" aria-controls="collapseOrder_{{ order.id }}">
+                                  <i class="fa fa-info"></i>
+                              </button>
+                              <div id="collapseOrder_{{ order.id }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                  <div class="card-body">
+                                   {{ order.description }}
+                                  </div>
+                                  <br>
+                              </div>
+
+                          </li>
+                          {% endfor %}
+
+                      </ul>
+                  </div>
+
+                   <div class="collapse" id="payments_tab">
+                      <div class="card card-body">
+                          <p>Πληρωμές</p>
+                          <ul class="list-group">
+                          {% for payment in costumer.payments.all %}
+                          <li class="list-group-item list-group-item-success">
+                              Ημερομηνία...{{ payment.date|date:"d M, Y" }}, {{ payment.title }}, Αξία...{{ payment.tag_value }}
+                                <br>
+                          </li>
+
+                          {% endfor %}
+
+                      </ul>
+                      </div>
+                  </div>
+              </div>
+              <div class="card-footer">
+                  <hr>
+                  <div class="button-container">
+                      <div class="row">
+                          <div class="col-lg-3 col-md-6 col-6 ml-auto">
+                              <h5><h5><a class="btn btn-primary" href="{{ costumer.get_payment_url }}"><i class="fa fa-credit-card"></i> </a>
+                                  <br>
+                                  <small>Πληρωμή</small>
+                              </h5>
+                          </div>
+                          <div class="col-lg-4 col-md-6 col-6 ml-auto mr-auto">
+                              <h5><span style="color: red">{{ costumer.tag_balance }}</span>
+                                  <br>
+                                  <small>Υπόλοιπο</small>
+                              </h5>
+                          </div>
+                          <div class="col-lg-3 mr-auto">
+                              <h5><a  class="btn btn-success" href="{% url 'costumer_quick_pay' costumer.id  %}"><i class="fa fa-credit-card"></i> </a>
+                                  <br>
+                                  <small>Πληρωμη όλο το ποσό</small>
+                              </h5>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

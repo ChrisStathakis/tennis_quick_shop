@@ -1,0 +1,236 @@
+{% extends 'dashboard.html' %}  {% load render_table from django_tables2 %}
+
+
+{% block content %}
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                    <h4>Συνολική Εικόνα ==> <span {% if diff > 0 %} style='color:green' {% else %} style='color:red' {% endif %}> {{diff }} {{ currency }}</span></h4>
+                    <p>Κινησεισ Πληρωμων - Εσοδων</p>
+                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            Filters
+                        </a>
+                        <a href="{{ request.path }}" class="btn btn-danger">Καθαρισμος</a>
+                        <a href="{{ back_url }}" class="btn btn-warning pull-right">Επιστροφη</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="collapse" id="collapseExample">
+                            <form method="get" class="form">
+                                 <div class="row">
+                                      {% include 'filters/my_filters.html' %}
+                                 </div>
+                                 <button type="submit" class="btn btn-"><i class="fa fa-save"></i> Αποθηκευση </button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">
+                    <div class='row'>
+                        <div class='col-md-4'></div>
+                         <div class='col-md-8' >
+                            {% comment %} <canvas id="lineChart" width="400" height="400"></canvas>  {% endcomment %}
+                        </div>
+                    </div>
+                    
+                </h4>
+              </div>
+              <div class="card-body">
+                <div class='row'>
+                    <div class='col-md-4'><canvas id="expenseChart" width="500" height="400" style='height:400px'></canvas></div>
+                    <div class='col-md-4'></div>
+                    <div class='col-md-4'><canvas id="totalChart" width="500" height="400" style='height:400px'></canvas></div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-6'>
+                        <h4>Εξοδα Συνολο ==> <span style='color:red'> {{  total_expenses }} {{ currency }}</span></h4>
+                        <table class='table table-hover table-bordered'>
+                            <thead>
+                                <tr class='table-danger'>
+                                    <th>Ημερομηνια </th>
+                                    <th>Ειδος </th>
+                                    <th>Αξια </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for ele in expenses_query %}
+                                    <tr>
+                                        <td>{{ ele.report_date }}</td>
+                                        <td>{{ ele.report_expense_type }}</td>
+                                        <td class="table-warning">{{ ele.report_value }} {{ currency }}</td>
+                                    </tr>
+                                {% endfor %}
+                            <tbody>
+                        </table>
+                    </div>
+                    <div class='col-md-6'>
+                        <h4>Εσοδα ==> Συνολο <span style='color:green'> {{total }} {{ currency }}</span> </h4>
+                        
+                        <table class='table table-hover table-bordered'>
+                            <thead>
+                                <tr class='table-success'>
+                                    <th class>Ημερομηνια </th>
+                                    <th>Ζ Ημερας </th>
+                                    <th>Pos Ημερας </th>
+                                    <th>Μετρητα </th>  
+                                    <th>Τιμολογια </th>
+                                    <th>Συνολο </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for ele in incomes %}
+                                    <tr>
+                                        <td>{{ ele.date_expired }}</td>
+                                        <td>{{ ele.sum_z }} {{ currency }}</td>
+                                        <td>{{ ele.pos }} {{ currency }}</td>
+                                        <td>{{ ele.cash }} {{ currency }}</td>
+                                        <td>{{ ele.order_cost }} {{ currency }}</td>
+                                        <td class="table-success">{{ ele.logistic_value }} {{ currency }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                   
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" id="modal_area">
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM=" crossorigin="anonymous"></script>
+    <script>
+var ctx = document.getElementById('totalChart');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Συνολο', 'Συνολο Ζ', 'Συνολο POS', 'Mετρητα', 'Συνολο Τιμ.'],
+        datasets: [{
+            label: '# Σε Ευρω',
+            data: [{{ total }}, {{ total_z }}, {{ total_pos }}, {{ total_cash }}, {{ total_order }}],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'green',
+                'rgba(153, 102, 255, 0.2)'
+                
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)'
+                
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+ctx.height = 400;
+</script>
+
+<script>
+var ctx = document.getElementById('expenseChart');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Συνολικα Εξοδα', 'Πληρωμες Προμηθευτων', 'Λογαριασμοι', 'Μισθοδοσια', 'Γενικά Εξοδα'],
+        datasets: [{
+            label: '# Σε Ευρω',
+            data: [{{ total_expenses }},{{ vendor_payments_total }}, {{ bills_total }}, {{ payrolls_total }}, {{ generic_expenses_total }}],
+            backgroundColor: [
+                'red',
+                'blue',
+                'rgba(255, 206, 86, 0.2)',
+                'green',
+                'rgba(153, 102, 255, 0.2)'
+                
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)'
+                
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+ctx.height = 400;
+</script>
+
+<script>
+var ctx = document.getElementById('lineChart');
+var myChart = new Chart(ctx, {
+    type: 'line',
+
+    data: {
+        labels: ['Προμηθευτες', ],
+        datasets: [{
+				label: 'Προμηθευτες',
+				backgroundColor: window.chartColors.red,
+				borderColor: window.chartColors.red,
+				fill: false,
+				data: [
+                    {% for ele in analysis_invoices_per_month%}
+					randomScalingFactor(),
+                    {%endfor%}
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor()
+				],
+			}
+            ]
+    options: {
+        maintainAspectRatio: false,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends 'payroll/homepage.html' %} {% load render_table from django_tables2 %}
+{% block extra_js %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+
+
+
+<script>
+  $(function () {
+    $("#id_date_start").datetimepicker({
+      format: 'd/m/Y H:i',
+    });
+  });
+</script>
+    <script>
+  $(function () {
+    $("#id_date_end").datetimepicker({
+      format: 'd/m/Y H:i',
+    });
+  });
+</script>
+
+  <script>
+    $(function () {
+      $("#datetimepicker").datetimepicker();
+    });
+  </script>
+
+
+
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <div class="row">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Λεπτομεριες</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                          <li class="list-group-item">Τηλέφωνα ==> {{ object.phone }}, {{ object.phone1 }}</li>
+                          <li class="list-group-item">Σημειωσεις ==> {{ object.notes|safe }}</li>
+                          <li class="list-group-item">Επαγγελμα ==> {{ object.occupation }}</li>
+                          <li {% if object.balance > 0 %}
+                                  class="list-group-item list-group-item-danger"
+                              {% else %}
+                                  class="list-group-item list-group-item-success"
+                              {% endif %}
+                            > Υπόλοιπο ==> {{ object.tag_balance }}
+                          </li>
+                        </ul>
+                        <hr>
+                        <a href="{{ object.get_edit_url }}" class="btn btn-info" target="_blank"><i class="fa fa-edit"> Επεξεργασια</i> </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <a href="{% url 'payroll_bills:person_list' %}" class="btn btn-warning pull-right">Επιστροφη</a>
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Πληρωμες</a>
+                                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Ωραρια</a>
+
+                            </div>
+                        </nav>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="tab-content" id="nav-tabContent">
+                          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                              <form method="post" class="form" action="{% url 'payroll_bills:validate_payroll' object.id %}">
+                                  {% csrf_token %}
+                                  {{ form }}
+                                  <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Αποθηκευση </button>
+                              </form>
+                          </div>
+                          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                              <a href="{% url 'payroll_bills:person_calendar' object.id %}" class="btn btn-success">Αναλυση Ωρων</a>
+                              <h5> Προσθηκη Ωραριου</h5>
+                              <form method="post" class="form" action="{% url 'payroll_bills:validate_schedule' object.id %}">
+                                  {% csrf_token %}
+                                  {{ calendar_form }}
+                                  <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Αποθηκευση </button>
+                              </form>
+                          </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <p>
+                          <button class="btn btn-primary"
+                                  type="button"
+                                  data-toggle="collapse"
+                                  data-target="#collapseExample"
+                                  aria-expanded="false"
+                                  aria-controls="collapseExample"
+                          >
+                            Filters
+                          </button>
+                        </p>
+                        <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                            <form method='get' class='form'>
+                                <div class='row'>
+                                    {% include 'filters/my_filters.html' %}
+                                    <button type='submit' class='btn btn-success'><i class='fa fa-search'></i></button>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <h4> Συνολο Πληρωμων ==> {{ total_payroll }}</h4>
+                                {% render_table queryset_table %}
+                            </div>
+                            <div class="col-6">
+                                <h4> Συνολο Ωρων ==> {{ total_hours }}</h4>
+                                {% render_table schedule_table %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,246 @@
+{% extends "dashboard.html" %} {% load static %}
+
+{% block extra_css %}
+    <style>
+        #id_categories {
+            height: 350px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class='content'>
+        <div class='row'>
+            <div class='col-md-12'>
+                <div class='card'>
+                    <div class='card-header'>
+                    <a href='{{ request.path }}'>{{ vendor }}==> Συνολικα Προιοντα... {{ object_list.count }}</a>
+                    <br>
+                    <button class='btn btn-success' data-toggle="modal" data-target="#exampleModal" ><i class='fa fa-plus'></i> Προσθηκη Προϊόντος </button>
+                    <button class='btn btn-info' data-toggle="modal" data-target="#searchProducts">
+                        <i class='fa fa-search'></i> Αναζητηση σε ολη την αποθηκη
+                    </button>
+                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            Φιλτρα
+                        </a>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Δημιουργια Προϊόντος</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="overflow-y: scroll; height:600px;">
+                            <form method='post' class='form' action="{% url 'vendors:validate_product_creation' vendor.id %}"> {% csrf_token %}
+                            {{ create_form }}
+                            <button type='submit' class='btn btn-primary'><i class='fa fa-save'></i> Αποθηκευση</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    
+                    <a href='{{ vendor.get_edit_url }}' class='btn btn-warning pull-right'>Επιστροφη</a>
+                    </div>
+                    <div class='card-body'>
+                        <div class="collapse" id="collapseExample">
+                            <form method="get" class="form">
+                                <div class="row">
+                                    {% include 'filters/my_filters.html' %}
+                                    <br>
+                                    <ul class="pagination">
+                                        {% if page_obj.has_previous %}
+                                        <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                                        {% else %}
+                                        <li class="disabled"><span>&laquo;</span></li>
+                                        {% endif %}
+                                        {% for i in paginator.page_range %}
+                                        {% if page_obj.number == i %}
+                                            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                        {% else %}
+                                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                        {% endif %}
+                                        {% endfor %}
+                                        {% if page_obj.has_next %}
+                                        <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                                        {% else %}
+                                        <li class="disabled"><span>&raquo;</span></li>
+                                        {% endif %}
+                                    </ul>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Αναζητηση </button>
+                                        <a href="{{ request.path }}" class="btn btn-danger pull-right">Καθαρισμός</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class='row'>
+            <div class='col-md-12' id='result_container'>
+            </div>
+        </div>
+
+        <div class='row'>
+            <div class='col-md-12'>
+                <div class='card'>
+                    <div class='catd-header'><div class='card-title'><h5>Προιοντα</h5></div></div>
+                    <div class='card-body'>
+                        <table class='table table-striped'>
+                            <thead>
+                                <tr>
+                                    <th>Επεξεργασία</th>
+                                    <th>Κωδικος</th>
+                                    <th>Προϊον</th>
+                                    <th>Τιμη Προμηθευτη  </th>
+                                    <th>Τελικη τιμη Προμηθευτη</th>
+                                    <th>Χαμηλοτερη Τιμη</th>
+                                    <th>Τιμη Πωλησης</th>
+                                    <th>Αναλυση <th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in object_list %}
+                                    <tr >
+                                        <td>
+                                            <button data-href="{% url 'vendors:ajax_edit_product' product.id %}" type='button'
+                                            {% if product.is_favorite %} class='btn btn-success edit_button' {% else %}  class='btn btn-info edit_button' {% endif %}>
+                                            
+                                            <i class='fa fa-edit'></i>
+                                            </button>
+                                        </td>
+                                        <td>{{ product.sku }}</td>
+                                        <td>{{ product.product }}</td>
+                                        <td>{{ product.tag_clean_value }} </td>
+                                        <td> {{product.tag_final_value }}</td>
+                                        <td> {{ product.product.tag_price_buy }}</td>
+                                        <td>{{ product.product.tag_final_value }}</td>
+                                        <td>
+                                            <div class="btn-group dropright">
+                                            <button data-href="{% url 'vendors:ajax_product_price' product.id %}" class='btn btn-success quick_view'><i class='fa fa-print'> </i> </button>
+                                            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span class="sr-only">Toggle Dropright</span>
+                                            </button>
+                                                <div class="dropdown-menu">
+                                                    <a target='_black' class="dropdown-item" href="{% url 'vendors:action_favorite_product' product.id %}">Προσθ./Αφαιρ. Αγαπημ.</a> 
+                                                    <a class="dropdown-item" href="{% url 'vendors:action_copy_product_vendor' product.id %}">Αντιγραφή</a>
+                                                    <a href='#'> ----- </a> 
+                                                     <a onclick="return confirm('Εισαι σιγουρος;')" class="dropdown-item item-danger" href="{{ product.get_delete_url}}">Διαγραφή</a>     
+                                                </div>
+                                            </div>
+                                        
+                                         </td>
+
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="modal fade" id="searchProducts" tabindex="-1" role="dialog" aria-labelledby="searchProducts" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="searchProducts">Αναζητηση</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method='get' class='form' action="">
+                                    <input 
+                                        type='text'
+                                        name="q"
+                                        class='form-control ajax_search'
+                                        data-href='{% url "vendors:ajax_search_warehouse" vendor.id %}'
+                                        name='search_name' placeholder='Αναζήτηση σε ολη την αποθηκη' />
+                                    <button type='submit' class='btn btn-success'><i class='fa fa-search'></i></button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                    </div>
+                </div>
+    </div>
+    <div class='row' id='modal_area'></div>
+    </div>
+
+{% endblock content %}  
+
+
+{% block extra_js %}
+<script>
+    $('.quick_view').click(function (evt) {
+        evt.preventDefault();
+        $('#modal_area').empty();
+        const my_btn = $(this);
+        const url = my_btn.attr('data-href');
+        $.ajax({
+            method: 'GET',
+            dataType: 'json',
+            url: url,
+
+            success: function (data) {
+                $('#modal_area').html(data.result);
+                $('#quick_view_modal').modal('show');
+            }
+        })
+    })
+</script>
+
+<script>
+    $('.ajax_search').keyup(function(ent){
+        ent.preventDefault();
+        const myInput = $(this);
+        const value = myInput.val();
+        const url = myInput.attr('data-href');
+        $.ajax({
+            method: 'GET',
+            dataType: 'json',
+            url: url + '?search_name='+ value,
+
+            success: function(data){
+                $('#result_container').html(data.result)
+            }
+        })
+    })
+</script>
+
+<script>
+    $('.edit_button').click(function(evt){
+        $('#modal_area').empty();
+        evt.preventDefault();
+        const myBtn = $(this);
+        const url = myBtn.attr('data-href');
+        $.ajax({
+            method: 'GET',
+            dataType: 'json',
+            url: url,
+
+            success: function(data){
+                $('#modal_area').html(data.result);
+                $('#quick_view_modal').modal('show');
+            }
+        })
+    })
+</script>
+
+
+
+
+{% endblock %}

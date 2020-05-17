@@ -1,0 +1,88 @@
+{% extends "dashboard.html" %}
+
+{% block extra_css %}
+ {{ form.media }}
+ <style>
+    textarea.form-control{
+        max-height: 400px;
+        width:1800px;
+    }
+ </style>
+ {% endblock %}
+
+{% block content %}
+    <div class='content'>
+            <div class='row'>
+                <div class='col-md-12'>
+                    <div class='card'>
+                        <div class='card-header'>
+                            <h4>Σημειωσεις .... {{ vendor }} </h4>
+                        </div>
+                    </div>
+                    <a href='{{ vendor.get_edit_url }}' class='btn btn-warning'>Επιστροφη </a>
+                </div>
+            </div>
+        <div class='row'>
+            {% for note in object_list %}
+                <div class='col-md-4'>
+                    <div class='card'>
+                        <div class='card-header'>
+                            <div class='card-title'><h5>{{ note }}</h5></div>
+                        </div>
+                        <div class='card-body'>
+                            <h6>σχολια</h6>
+                            {{ note.text|safe }}
+                        </div>
+                        <div class='card-footer'>
+                                <a href="{% url 'vendors:note_update' note.id  %}" class='btn btn-primary'><i class='fa fa-edit'></i> </a>
+                                <br />
+                            <p>Δημιουργία {{ note.date|date:'d M Y' }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            
+        </div>
+        <div class='row'>
+            <div class='col-md-12'>
+                <div class='card'>
+                    <div class='card-header'><div class='card-title'>Δημιουργία</div></div>
+                    <div class='card-body'>
+                        <form method='POST' action='{% url "vendors:note_create" vendor.id %}'>{% csrf_token %}
+                            {{ form  }}
+                            <button type='submit' class='btn btn-success'><i class='fa fa-save'></i> Αποθηκευση </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class='row' id='modal_area'></div>
+    </div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+<script>
+    $('.quick_view').click(function (evt) {
+        evt.preventDefault();
+        console.log('here')
+        $('#modal_area').empty();
+        const my_btn = $(this);
+        const url = my_btn.attr('data-href');
+        $.ajax({
+            method: 'GET',
+            dataType: 'json',
+            url: url,
+
+            success: function (data) {
+                $('#modal_area').html(data.result);
+                $('#quick_view_modal').modal('show');
+            }
+        })
+    })
+</script>
+
+{% endblock %}

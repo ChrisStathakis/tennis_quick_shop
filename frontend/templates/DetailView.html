@@ -1,0 +1,169 @@
+{% extends 'dashboard.html' %} {% load render_table from django_tables2 %}
+
+{% block content %}
+    <div class="content">
+     <div class="row">
+         <div class="col-12">
+             <div class="card">
+                 <div class="card-header">
+                     <div class="card-title"><h4 class="text-center">{{ object }}, Υπόλοιπο {{ object.tag_balance }}</h4> </div>
+                      <a href="{% url 'costumer_list' %}" class="btn btn-sm btn-outline-warning btn-round text-right">Επιστροφη</a>
+                 </div>
+             </div>
+         </div>
+        <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title"> Παραστατικα</h4>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive" style="height: 400px;">
+                  {% render_table orders_table %}
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Πληρωμές</h4>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive"  style="height: 400px;">
+                    {% render_table payments_table %}
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+     <div class="row">
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-body">
+                <div class="author">
+                  <a href="#">
+                    <h5 class="title">{{ object }}</h5>
+                  </a>
+                  <p class="description">
+                    Κατασταση {{ object.tag_active }} |  AMKA {{ object.amka }}
+                  </p>
+                </div>
+                <p class="description text-center">
+                  Τηλέφωνα
+                  <br> {{ object.cellphone|default_if_none:"Δεν υπάρχει κινητό" }}
+                  <br> {{ object.phone }}
+                </p>
+              </div>
+              <div class="card-footer">
+                <hr>
+                <div class="button-container">
+                  <div class="row">
+                    <div class="col-lg-3 col-md-6 col-6 ml-auto">
+                      <h5>{{ object.tag_value }}
+                        <br>
+                        <small>Συνολικός Τζιρος</small>
+                      </h5>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-6 ml-auto mr-auto">
+                      <h5>{{ object.tag_paid_value }}
+                        <br>
+                        <small>Πληρωμένη Αξία</small>
+                      </h5>
+                    </div>
+                    <div class="col-lg-3 mr-auto red">
+                      <h5 style="color: red">{{ object.tag_balance }}
+                        <br>
+                        <small style="color: red">Υπόλοιπο</small>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Επιλογες</h4>
+              </div>
+              <div class="card-body">
+                <ul class="list-unstyled team-members">
+                  <li>
+                    <div class="row">
+                      <div class="col-md-7 col-7">
+                        Παραστατικού
+                        <br />
+                        <span class="text-muted">
+                          <small>Δημιουργία</small>
+                        </span>
+                      </div>
+                      <div class="col-md-5 col-5 text-right">
+                        <a href="{% url 'create_order_costumer_detail' object.id %}" class="btn btn-sm btn-outline-warning btn-round btn-icon"><i class="fa fa-plus"></i></a>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row">
+                      <div class="col-md-7 col-7">
+                        Πληρωμής
+                        <br />
+                        <span class="text-success">
+                          <small>Δημιουργία</small>
+                        </span>
+                      </div>
+                      <div class="col-md-5 col-5 text-right">
+                        <a href="{% url 'create_payment_costumer_detail' object.id %}" class="btn btn-sm btn-outline-success btn-round btn-icon"><i class="fa fa-plus"></i></a>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                  <a href="{% url 'costumer_delete' object.id %}" onclick="return confirm('Είσαι Σιγουρος;')" class="btn btn-danger"><i class="fa fa-warning"></i> Διαγραφη </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="card card-user">
+              <div class="card-header">
+                <h5 class="card-title">Επεργασία Προφίλ</h5>
+                  <a href="{% url 'costumer_empty_log' object.id %}" class="btn btn-warning">Καθαρισμος Κινησεων</a>
+
+              </div>
+              <div class="card-body">
+                <form method="post"> {% csrf_token %}
+                  {{ form }}
+                  <div class="row">
+                    <div class="update ml-auto mr-auto">
+                      <button type="submit" class="btn btn-primary btn-round"><i class="fa fa-save"></i> Αποθηκευση</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+         <div class="row" id="modal_area"></div>
+     </div>
+
+
+ </div>
+{% endblock %}
+
+
+
+{% block extra_js %}
+    <script>
+        $('.quick_view').click(function (evt) {
+            evt.preventDefault();
+            $('#modal_area').empty();
+            const my_btn = $(this);
+            const url = my_btn.attr('data-href');
+            $.ajax({
+                method: 'GET',
+                dataType: 'json',
+                url: url,
+
+                success: function (data) {
+                    $('#modal_area').html(data.result);
+                    $('#quick_view_modal').modal('show');
+                }
+        })
+        })
+    </script>
+{% endblock %}

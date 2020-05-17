@@ -1,0 +1,54 @@
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Περιγραφή</th>
+        <th>ΜΜ</th>
+        <th>Ποσοτητα</th>
+        <th>Αξια</th>
+        <th>Εκπτωση</th>
+        <th>ΦΠΑ</th>
+        <th>-</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in object.order_items.all %}
+        <tr>
+            <td>{{ item.title }}</td>
+            <td>{{ item.get_unit_display }}</td>
+            <td>{{ item.qty }}</td>
+            <td>{{ item.value }}</td>
+            <td>{{ item.discount }} %</td>
+            <td>{{ item.taxes_modifier }} %</td>
+            <td><button data-href="{% url 'costumers:ajax_delete_order_item' item.id %}" class="btn btn-warning delete_button"><i class="fa fa-remove"></i> </button> </td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="4">No data</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<br> <hr>
+
+
+
+<script>
+    $('.delete_button').click(function (evt) {
+        evt.preventDefault();
+        const myBtn = $(this);
+        const url = myBtn.attr('data-href');
+        $.ajax({
+            method: 'GET',
+            dataType: 'json',
+            url:  url,
+
+            success: function (data) {
+                $('.product_container').html(data.result);
+                $('.order_details').html(data.details);
+                $("#add_form").reset();
+                $("#id_title").val('')
+
+            }
+        })
+    })
+</script>

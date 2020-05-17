@@ -1,0 +1,53 @@
+<div class='col-md-6'>
+                <div class='card'>
+                    <div class='card-hader'>
+                        <h4>Συνολικές Οφειλές Πελατών</h4>
+                    </div>
+                    <div class='card-body'>
+                        <table class='table'>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Πελάτης</th>
+                                    <th>Ποσό</th>
+                                </tr>
+                            <thead>
+                            <tbody>
+                                {% for customer in costumers_orders %}
+                                    <tr>
+                                        <td>{{ forloop.counter }} </td>
+                                        <td>{{ customer.customer__first_name }} {{ customer.customer__last_name }} </td>
+                                        <td>{{ customer.total }} </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+<div class='col-md-6'>
+            <div class='card'>
+                    <div class='card-hader'>
+                        <h4>Πληρωμές Πελατών</h4>
+                    </div>
+                    <div class='card-body'>
+                        <table class='table'>
+                            <thead>
+                                <tr>
+                                    <th>#<th>
+                                    <th>Πελάτης</th>
+                                    <th>Ποσό</th>
+                                </tr>
+                            <thead>
+                            <tbody>
+                                {% for customer in costumers_payments %}
+                                    <tr>
+                                        <td>{{ forloop.counter }} </td>
+                                        <td>{{ customer.customer__first_name }} {{ customer.customer__last_name }} </td>
+                                        <td>{{ customer.total }} </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div></div>

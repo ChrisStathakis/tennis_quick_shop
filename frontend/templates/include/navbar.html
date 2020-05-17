@@ -1,0 +1,62 @@
+{% load static %}
+
+<div class="sidebar" data-color="white" data-active-color="danger">
+      <!--
+        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+    -->
+      <div class="logo">
+        <a href="/" class="simple-text logo-mini">
+          <div class="logo-image-small">
+            <img src="{% static 'assets/img/logo.png' %}">
+          </div>
+        </a>
+        <a href="{% url 'home' %}" class="simple-text logo-normal">
+         Αποθηκη
+          <!-- <div class="logo-image-big">
+            <img src="../assets/img/logo-big.png">
+          </div> -->
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+          <li>
+            {% comment %}  <a href="{% url 'notes:home' %}"><i class="nc-icon nc-user-run"></i><p>Γενικες Σημειωσεις</p></a> {% endcomment %}
+            <a href="{% url 'costumer_homepage' %}">
+              <i class="nc-icon nc-user-run"></i>
+              <p>Πελατολογιο</p>
+            </a>
+          </li>
+            <li>
+            <a href="{% url 'vendors:home' %}">
+              <i class="nc-icon nc-bell-55"></i>
+              <p>Αποθηκη</p>
+            </a>
+            </li>
+            <li>
+            <a href="{% url 'payroll_bills:home' %}">
+              <i class="nc-icon nc-bell-55"></i>
+              <p>Λογαριασμοι</p>
+            </a>
+          </li>
+          <hr>
+          <li>
+            <a href="{% url 'incomes:list' %}">
+              <i class="nc-icon nc-bell-55"></i>
+              <p>Εσοδα</p>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'analysis:homepage' %}">
+              <i class="nc-icon nc-bell-55"></i>
+              <p>Aναλυση</p>
+            </a>
+          </li>
+            <li>
+            <a href="{% url 'payment_method_list' %}">
+              <i class="nc-icon nc-bell-55"></i>
+              <p>Settings</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>

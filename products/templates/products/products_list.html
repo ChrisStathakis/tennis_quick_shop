@@ -1,0 +1,40 @@
+{% extends "dashboard.html" %} {% load render_table from django_tables2 %}
+
+{% block content %}
+    <div class='content'>
+
+        <div class='row'>
+            <div class='col-md-12'>
+                <div class='card'>
+                    <div class='card-header'>
+                        Προϊόντα
+                    </div>
+                    <div class='card-body'>
+                        <table class='table'>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Προϊόν</th>
+                                    <th>Χαμηλότερη Τιμή</th>
+                                    <th>Ανάλυση Τιμών</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in object_list %}
+                                    <tr>
+                                        <td>{{ product.id }}</td>
+                                        <td>{{ product.title }}</td>
+                                        <td class='warning'>{{ product.tag_value }}</td>
+                                        <td>{{ product.tag_vendors }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+{% endblock %}

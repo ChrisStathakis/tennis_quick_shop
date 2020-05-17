@@ -1,0 +1,80 @@
+{% extends 'payroll/homepage.html' %} {% load static %}
+
+
+
+{% block content %}
+    <div class="content">
+        <div class="row">
+            <div class="col-md-8 col-lg-8">
+            <div class="card card-user">
+              <div class="card-header">
+                <h5 class="card-title">{{ form_title }}</h5>
+              </div>
+              <div class="card-body">
+                  <form method="post"> {% csrf_token %}
+                      {{ form }}
+                      <div class="row">
+                          <div class="update ml-auto mr-auto">
+                              <button type="submit" class="btn btn-primary btn-round"><i class="fa fa-save"></i>
+                                   Αποθηκευση
+                              </button>
+                              {% if add_button %} <button name="add_button" value="works" class="btn btn-success btn-round">{{ button_title }}</button> {% endif %}
+                          </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+                </div>
+            <div class="col-md-4 col-lg-4">
+            <div class="card card-user">
+              <div class="card-header">
+                <a href="{{ back_url }}" class="btn btn-warning">Επιστροφη</a>
+                  <br>
+                  {% if customer_url %}
+                    <a href="{{ customer_url }}" class="btn btn-info">Καρτελα Πελατη</a>
+                  {% endif %}
+                  <br> <br>  <br> <br>
+                  {% if delete_url %}
+                    <a href="{{ delete_url }}" onclick="return confirm('Εισαι σιγουρος;')" class="btn btn-danger">Διαγραφη</a>
+                  {% endif %}
+
+
+              </div>
+            </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+{{ form.media }}
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+
+
+
+<script>
+  $(function () {
+    $("#id_date_start").datetimepicker({
+      format: 'd/m/Y H:i',
+    });
+  });
+</script>
+    <script>
+  $(function () {
+    $("#id_date_end").datetimepicker({
+      format: 'd/m/Y H:i',
+    });
+  });
+</script>
+
+  <script>
+    $(function () {
+      $("#datetimepicker").datetimepicker();
+    });
+  </script>
+
+{% endblock %}

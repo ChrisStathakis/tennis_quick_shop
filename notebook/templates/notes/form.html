@@ -1,0 +1,79 @@
+{% extends 'dashboard.html' %}  {% load render_table from django_tables2 %}
+
+{% block extra_css %}
+ {{ form.media }}
+ <style>
+    textarea.form-control{
+        max-height: 600px;
+        width:1800px;
+    }
+    #id_description {
+        max-height: 600px;
+        height:600px;
+    }
+    #id_tag {
+        max-height: 250px;
+        height:250px;
+    }
+ </style>
+ {% endblock %}
+
+{% block content %}
+    <div class="content">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <div class='card'>
+                    <div class='card-header'>
+                        <h4>{{form_title}}</h4>
+                        <!-- Large modal -->
+                        <a href="{{ back_url }}" class="btn btn-warining pull-right">Επιστροφή</a>
+                    </div>
+                     <div class="card-body">
+                        <form method='post' class='form'>
+                            {% csrf_token %}
+                            {{ form }}
+                            <br />
+                            <button class='btn btn-success pull-right' type='submit'><i class='fa fa-save'></i></button> 
+                        </form>
+                     </card>
+                    
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+
+        <div class='row notes'> 
+            <div class='col-12'><h5> Pinned </h5></div>
+            {% for note in object_list %}
+                <div class='col-3'>
+                    <div class="card card-nav-tabs text-center">
+                        <div class="card-header card-header-primary">
+                        {% if note.pinned %}  <a href="#" class="btn btn-primary"><i class='fa fa-thumb-tack'></i></a>
+                            {% else %}
+                            <a href="#"><i class='fa fa-thumb-tack'></i></a>
+                             {% endif %}
+                            
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">{{ note }}</h4>
+                            <p class="card-text">{{ note.description|safe }}</p>
+                            <a href="{{ note.get_edit_url }}" class="btn btn-primary"><i class='fa fa-edit'></i></a>
+                        </div>
+                        <div class="card-footer text-muted">
+                            {% for tag in note.tags.all %} <a href=''>{{ tag }}</a>  {% empty %} No tags{% endfor %}
+                        </div>
+                    </div>
+                    
+                </div>
+            {% endfor %}
+        </div>
+
+        
+
+
+    </div>
+
+{% endblock %}
+
+

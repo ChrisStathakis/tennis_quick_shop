@@ -1,0 +1,41 @@
+{% load render_table from django_tables2 %}
+<div class='card'>
+    <div class='card-header'>
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          ΕΜΦΑΝΙΣΗ
+        </button>
+    </div>
+    <div class='card-body'>
+    <div class="accordion" id="accordionExample">
+  
+   
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body">
+          {% render_table queryset_table %}
+      </div>
+    </div>
+</div>
+        
+    </div>
+</div>
+
+
+<script>
+    $('.quick_view_').click(function (evt) {
+        evt.preventDefault();
+        $('#modal_area').empty();
+        const my_btn = $(this);
+        const url = my_btn.attr('data-href');
+        $.ajax({
+            method: 'GET',
+            dataType: 'json',
+            url: url,
+
+            success: function (data) {
+                $('#modal_area').html(data.result);
+                $('#quick_view_modal').modal('show');
+            }
+        })
+    })
+</script>

@@ -1,0 +1,53 @@
+{% extends "dashboard.html" %}
+
+
+{% block content %}
+    <div class='content'>
+        <hr>
+        <div class='row'>
+            <div class='col-md-12'>
+                <div class='card'>
+                    <div class='card-header'>
+                        <h4>Προϊόντα</h4>
+                        <a href="{% url 'edit_product_list' %}" class='btn btn-success pull-left'><i class='fa fa-edit'></i> Λιστα </a>
+                        <a href="{% url 'product_homepage' %}" class='btn btn-info pull-right'><i class="fa fa-vcard"></i> Report</a>
+                    </div>
+                    <div class='card-body'>
+                    </div>
+                </div>
+            </div>
+            <div class='col-md-12'>
+                <div class='card'>
+                    <div class='card-header'>
+                        <h4>Προϊόντα Προμηθευτών</h4>
+                        <a href="{% url 'products_vendors_list' %}" class='btn btn-success'><i class='fa fa-edit'></i> Λιστα</a>
+                    </div>
+                    <div class='card-body'>
+                    </div>
+                </div>
+            </div>
+            <div class='col-md-12'>
+                <div class='card'>
+                    <div class='card-header'>
+                        <h4>Προμηθευτες</h4>
+                        <a href="{% url 'vendors:list' %}" class='btn btn-success'><i class='fa fa-edit'></i> Λιστα</a>
+                    </div>
+                    <div class='card-body'>
+                    </div>
+                </div>
+            </div>
+
+            <div class='col-md-12'>
+                <div class='card'>
+                    <div class='card-header'>
+                        <h4>Κατηγοριες</h4>
+                        <a href="{% url 'vendors:category_list' %}" class='btn btn-success'><i class='fa fa-edit'></i> Λιστα</a>
+                    </div>
+                    <div class='card-body'>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %} 

@@ -1,0 +1,23 @@
+{% load zefarak_tags %}
+<div class="col-6">
+    <div class="form-group">
+        <h6>Κατηγοριες</h6>
+        {% for category in categories %}
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input
+                            class="form-check-input"
+                            type="checkbox"
+                            value="{{ category.0 }}"
+                            name="cate_name"
+                            {% if category.0|stringformat:"s" in request.GET|get_item:"cate_name" %} checked {% endif %}
+                    >
+                    {{ category.1 }}
+                    <span class="form-check-sign">
+                        <span class="check"></span>
+                    </span>
+                </label>
+            </div>
+        {% endfor %}
+    </div>
+</div>

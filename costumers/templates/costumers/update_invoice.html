@@ -1,0 +1,157 @@
+{% extends 'dashboard.html' %} {% load static %}
+{% block content %}
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h5>Τυπος Παραστατικού: {{ object.get_order_type_display }}
+                                    Σειρα/Αριθμός: {{ object.get_series_display }}-{{ object.number }}
+                                    Ημερομηνια: {{ object.date|date }}
+                            </h5>
+                            <a href="{% url 'costumers:home' %}" class="btn btn-warning pull-right">Επιστροφη</a>
+                        </div>
+                        <div class="card-body text-center">
+                            <h4>Πελατης ==> {{ object.costumer }}</h4>
+                            <a class="btn btn-success" href="{% url 'costumers:print_invoice' object.id %}" target="_blank">
+                                <i class="fa fa-print"></i> Εκπτυπωση</a>
+                            {% if not object.locked %}
+                                <a href="{% url 'costumers:invoice_locked' object.id %}" onclick="return confirm('Are you sure')" class="btn btn-warning">Κλειδωμα</a>
+                                <a href="{% url 'costumers:delete_payment_invoice' object.id %}" onclick="return confirm('Εισαι σιγουρος;')" class="btn btn-danger">Διαγραφη</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+
+                <div class="card mt-3 tab-card">
+                    <div class="card-header tab-card-header">
+                        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link" id="one-tab" data-toggle="tab" href="#one" role="tab" aria-controls="One" aria-selected="true">Επεξεργασια Πελατη</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="two-tab" data-toggle="tab" href="#two" role="tab" aria-controls="Two" aria-selected="false">Επεξεργασια Τιμολογίου</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="three-tab" data-toggle="tab" href="#three" role="tab" aria-controls="Two" aria-selected="false">Επιλογη Πληρωμης</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active p-3" id="one" role="tabpanel" aria-labelledby="one-tab">
+                            <h5 class="card-title">Επεξεργασια Πελατη</h5>
+                            <form method="post" class="form" action="{% url 'costumers:update_invoice_profile' object.profile.id %}">
+                                {% csrf_token %}
+                                {{ costumer_form }}
+                                <button type="submit" class="btn btn-success update_profile"><i class="fa fa-save"></i> </button>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
+                            <h5 class="card-title">Επεξεργασια Τιμολογίου</h5>
+                            <form class="form" method="post">
+                                {% csrf_token %}
+                                {{ form }}
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> </button>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade p-3" id="three" role="tabpanel" aria-labelledby="three-tab">
+                            <h5 class="card-title text-center">Εντολη Πληρωμης</h5>
+                            <h6 class="text-center">Σημειωσεις</h6>
+                            {% if order %}
+                                {{ order.description|safe }}
+                            {% else %}
+                                <p>No data</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Στοιχεια Τιμολογίου</h4>
+                    </div>
+                    <div class="card-body order_details">
+                        {% include 'costumers/ajax/order_details.html' %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Προϊόντα Τιμολογίου</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="product_container">
+                           {% include 'costumers/ajax/order_items.html' %}
+                        </div>
+
+                        <form method="post" class="form" id="add_form">
+                            {% csrf_token %}
+                            {{ item_form }}
+                            <button data-href="{% url 'costumers:ajax_create_item' object.id %}" class="btn btn-success create_item_submit"><i class="fa fa-save"></i> </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $('.create_item_submit').click(function (evt) {
+            evt.preventDefault();
+            const myBtn = $(this);
+            const form_data = myBtn.closest("form").serialize();
+            const url = myBtn.attr('data-href');
+            $.ajax({
+                method: 'POST',
+                dataType: 'json',
+                data: form_data,
+                url: url,
+
+                success: function (data) {
+                    $("#id_title").val('');
+                    $("#id_value").val('0');
+                    $("#id_qty").val('1');
+                    $("#id_taxes_modifier").val('24');
+                    $('#id_discount').val('0');
+                    $('.product_container').html(data.result);
+                    $('.order_details').html(data.details);
+                }
+            })
+        })
+    </script>
+
+    <script>
+        $('.delete_button').click(function (evt) {
+            evt.preventDefault();
+            const myBtn = $(this);
+            const url = myBtn.attr('data-href');
+            $.ajax({
+                method: 'GET',
+                dataType: 'json',
+                url:  url,
+
+                success: function (data) {
+                    $('.product_container').html(data.result);
+                    $('.order_details').html(data.details);
+                }
+            })
+        })
+    </script>
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    {{ form.media }}
+
+{% endblock %}
+

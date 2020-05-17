@@ -1,0 +1,48 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+    <div class="content">
+        <div class="row">
+            {% comment %}
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Μισθοδοσια</h4>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'payroll_bills:payroll_list' %}" class="btn btn-success">Λιστα</a>
+                        <a href="{% url 'payroll_bills:person_list' %}" class="btn btn-primary pull-right">Εργαζομενοι</a>
+                        <a href="{% url 'payroll_bills:occupation_list' %}" class="btn btn-info pull-right">Επαγγελματα</a>
+
+                    </div>
+                </div>
+            </div>
+            {% endcomment %}
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Λογαριασμοι</h4>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'payroll_bills:bill_list' %}" class="btn btn-primary">Λιστα</a>
+                        <a href="{% url 'payroll_bills:bill_category_list' %}" class="btn btn-primary pull-right">Λογαριασμοί</a>
+
+                    </div>
+                </div>
+            </div>
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Γενικα Εξοδα</h4>
+                </div>
+                <div class="card-body">
+                    <a href="{% url 'generic_expenses:list' %}" class="btn btn-success">Λιστα</a>
+                    <a href="{% url 'generic_expenses:category_list' %}" class="btn btn-primary pull-right">Κατηγοριες</a>
+                </div>
+            </div>
+
+        </div>
+        </div>
+    </div>
+{% endblock %}

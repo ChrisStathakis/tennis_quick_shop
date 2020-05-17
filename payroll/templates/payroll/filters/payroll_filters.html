@@ -1,0 +1,108 @@
+{% load zefarak_tags %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Filters
+                </button>
+                <a href="{{ request.path }}" class="btn btn-warning">καθαρισμος</a>
+            </div>
+            <div class="card-body">
+                <div class="collapse" id="collapseExample">
+                    <form class="form" method="get">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Αναζητηση</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="Πληκτρολογήστε..."
+                                            name="search_name"
+                                            {% if request.GET.search_name %} value="{{ search_name }}" {% endif %}
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Κατασταση</label>
+                                    <div class="form-check">
+                                      <label class="form-check-label">
+                                          <input
+                                                  name='paid_name'
+                                                  class="form-check-input"
+                                                  type="checkbox"
+                                                  value="paid"
+                                            {% if 'paid'|stringformat:'s' in request.GET|get_item:'paid_name' %} checked {% endif %}
+                                          >
+                                          Πληρωμενα
+                                          <span class="form-check-sign">
+                                              <span class="check"></span>
+                                          </span>
+                                      </label>
+                                    </div>
+                                    <div class="form-check">
+                                          <label class="form-check-label">
+                                              <input
+                                                      name="paid_name"
+                                                      class="form-check-input"
+                                                      type="checkbox"
+                                                      value="not_"
+                                                      {% if 'not_'|stringformat:'s' in request.GET|get_item:'paid_name' %} checked {% endif %}
+                                              >
+                                              Μη Πληρωμενα
+                                              <span class="form-check-sign">
+                                                  <span class="check"></span>
+                                              </span>
+                                          </label>
+                                    </div>
+                                    <br> <hr>
+                                </div>
+
+                            </div>
+                            <div class="col-6">
+                                <h6>Εργαζομενοι</h6>
+                                {% for person in persons %}
+                                    <div class="form-group">
+                                        <label for="">{{ person }}</label>
+                                        <input type="checkbox"
+                                               class="form-check-sign"
+                                               name="person_name"
+                                                value="{{ person.id }}"
+                                                {% if person.id|stringformat:'s' in request.GET.person_name %} checked {% endif %}
+
+                                        />
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-6">
+                            <h6>Ειδος Πληρωμης</h6>
+                                {% for cate in categories %}
+                                    <div class="form-group">
+                                        <label for="cate__{{ cate.0 }}">{{ cate.1 }} {{ cate }}</label>
+                                        <input id="cate__{{ cate.0 }}" type="checkbox" class="form-check-sign" name="cate_name"
+                                        {% if cate.0|stringformat:'s' in request.GET|get_item:'cate_name' %} checked {% endif %}
+                                        value="{{ cate.0 }}"
+                                        />
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <input
+                                    id="reportrange"
+                                    class="form-control"
+                                    style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%"
+                                    name="date_range"
+                                    value="{{ request.GET.date_range }}"
+                            />
+                        </div>
+
+                        <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Αποθηκευση </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,124 @@
+{% extends 'payroll/homepage.html' %} {% load render_table from django_tables2 %}
+{% block extra_css %}
+
+{% endblock %}
+{% block content %}
+    <div class="content">
+        <div class="row">
+            <div class="col-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Υπολοιπο. {{ category.tag_balance }}</h4>
+                        <p>
+                            <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                Filters
+                            </a>
+                            <a href="{{ request.path }}" class="btn btn-danger">Καθαρισμός</a>
+                        </p>
+                        <div class="collapse" id="collapseExample">
+                            <form method="get" class="form">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label>Αναζητηση</label>
+                                            <input type="text" class="form-control" name="search_name" value="{{ request.GET.search_name }}" />
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input
+                                                        class="form-check-input"
+                                                        type="checkbox"
+                                                        value="paid"
+                                                        name="paid_name"
+                                                        {% if request.GET.paid_name == 'paid' %} checked {% endif %}
+                                                >
+                                                  Πληρωμενα
+                                                <span class="form-check-sign">
+                                                    <span class="check"></span>
+                                                </span>
+                                              </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input
+                                                        class="form-check-input"
+                                                        type="checkbox"
+                                                        value="not_"
+                                                        name="paid_name"
+                                                        {% if request.GET.paid_name == 'not_' %} checked {% endif %}
+                                                >
+                                                  Απληρωτα
+                                                <span class="form-check-sign">
+                                                    <span class="check"></span>
+                                                </span>
+                                              </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <input
+                                                id="reportrange"
+                                                class="form-control"
+                                                style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%"
+                                                name="date_range"
+                                                value="{{ request.GET.date_range }}"
+                                        />
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Αναζητηση </button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        {% render_table queryset_table %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header">
+                        <a href="{% url 'payroll_bills:bill_category_list' %}" class="btn btn-warning pull-right">Επιστροφη</a>
+                        <h4>Νεο Παραστατικο</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" class="form" action="{% url 'payroll_bills:validate_payroll_form' category.id %}">
+                            {% csrf_token %}
+                            {{ form }}
+                            <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Αποθηκευση </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="modal_area"></div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $('.edit_button').click(function (evt) {
+            evt.preventDefault();
+            $('#modal_area').empty();
+            const myBtn = $(this);
+            const url = myBtn.attr('data-href');
+            console.log('here', url);
+            $.ajax({
+                method: 'GET',
+                url: url,
+                dataType: 'json',
+
+                success: function (data) {
+                    $('#modal_area').html(data.result);
+                    $('#editModal').modal('show');
+                }
+            })
+
+        });
+
+    </script>
+
+
+{% endblock %}

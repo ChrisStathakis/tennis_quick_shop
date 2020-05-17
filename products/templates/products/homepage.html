@@ -1,0 +1,58 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+    <div class="content">
+        <form method='GET' class='form' action='{% url "product_list_analysis" %}'>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Επιλογή Προμηθευτή</h4>
+                        </div>
+                        <div class='card-body'>
+                            <div class="form-group" >
+                                <label for="exampleFormControlSelect2">Example multiple select</label>
+                                <select name='vendor_name' multiple class="form-control" id="exampleFormControlSelect2" style='height:400px;'>
+                                    {% for vendor in vendors %}
+                                        <option value='{{ vendor.id }}'>{{ vendor }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='col-md-6'>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Επιλογή Κατηγορίας</h4>
+                        </div>
+                        <div class='card-body'>
+                            <div class="form-group" >
+                                <label for="exampleFormControlSelect2">Example multiple select</label>
+                                <select name='cate_name' multiple class="form-control" id="exampleFormControlSelect2" style='height:400px;'>
+                                    {% for category in categories %}
+                                        <option value='{{ category.id }}'>{{ category }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='col-md-12'>
+                    <div class='card'>
+                        <div class='card-header'>
+                            <input type='text' class='form-control' name='search_name' placeholder='Αναζήτηση' />
+                            <button type='submit' class='btn btn-success'><i class='fa fa-save'></i> Αποθηκευση</button>
+                            <a href={{ request.path }} class='btn btn-warning pull-right'>Reset</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>            
+    </div>
+           
+       
+        
+
+{% endblock %}

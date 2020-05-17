@@ -1,0 +1,25 @@
+{% load zefarak_tags %}
+
+<div class="col-6" style="overflow-y: scroll; height:400px;">
+    <div class="form-group" >
+        <h6>Προμηθευτες</h6>
+        {% for vendor in vendors %}
+           <div class="form-check">
+                <label class="form-check-label" >
+                    <input
+                            class="form-check-input"
+                            type="checkbox"
+                            value="{{ vendor.id }}"
+                            name="vendor_name"
+                            {% if category.id|stringformat:"s" in request.GET|get_item:"vendor_name" %} checked {% endif %}
+                    >
+                    {{ vendor }}
+                    <span class="form-check-sign">
+                        <span class="check"></span>
+                    </span>
+                </label>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<br>

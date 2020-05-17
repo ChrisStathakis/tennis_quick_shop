@@ -1,0 +1,119 @@
+{% extends 'dashboard.html' %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock %}
+
+{% block content %}
+
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Αναλυση</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method='get'>
+                        <input class="form-control" type="text" name="daterange" value="{{ request.GET.daterange }}" />
+
+                        <br>
+                        <button type='submit' class='btn btn-primary .search_button'>Save</button>
+                        <p>{{ request.GET.date_range }}
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class='row'>
+            <div class='card'>
+                <div class='card-header'>
+                    <div class='title'>Σύνολο </div>
+                </div>
+                <div class='card-body'>
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-danger">Αξία Παραστατικών... {{ total_value }} €</li>
+                        <li class="list-group-item list-group-item-success">Αξία Πληρωμών.. {{ total_payment }} €</li>
+                        <li class="list-group-item list-group-item-info">Διαφορά {{ difference }} €</li>
+                    
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class='row'>
+            <div class='col-md-6'>
+                <div class='card'>
+                    <div class='card-hader'>
+                        <h4>Συνολικές Οφειλές Πελατών</h4>
+                    </div>
+                    <div class='card-body'>
+                        <table class='table'>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Πελάτης</th>
+                                    <th>Ποσό</th>
+                                </tr>
+                            <thead>
+                            <tbody>
+                                {% for customer in costumers_orders %}
+                                    <tr>
+                                        <td>{{ forloop.counter }} </td>
+                                        <td>{{ customer.customer__first_name }} {{ customer.customer__last_name }} </td>
+                                        <td>{{ customer.total }} {{ currency }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class='col-md-6'>
+            <div class='card'>
+                    <div class='card-hader'>
+                        <h4>Πληρωμές Πελατών</h4>
+                    </div>
+                    <div class='card-body'>
+                        <table class='table'>
+                            <thead>
+                                <tr>
+                                   <th>#</th>
+                                    <th>Πελάτης</th>
+                                    <th>Ποσό</th>
+                                </tr>
+                            <thead>
+                            <tbody>
+                                {% for customer in costumers_payments %}
+                                    <tr>
+                                        <td>{{ forloop.counter }} </td>
+                                        <td>{{ customer.customer__first_name }} {{ customer.customer__last_name }} </td>
+                                        <td>{{ customer.total }} {{ currency }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div></div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <script>
+$(function() {
+  $('input[name="daterange"]').daterangepicker({
+    opens: 'left'
+  }, function(start, end, label) {
+    console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+  });
+});
+</script>
+{% endblock %}

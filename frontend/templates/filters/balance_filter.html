@@ -1,0 +1,36 @@
+{% load zefarak_tags %}
+<div class="col-6">
+    <div class="form-group">
+        <h6>Υπολοιπο</h6>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value="have_"
+                        name="balance_name"
+                        {% if 'have_' in request.GET|get_item:"balance_name" %} checked {% endif %}
+                >
+                Εχουν Υπολοιπο
+                <span class="form-check-sign">
+                    <span class="check"></span>
+                </span>
+            </label>
+        </div>
+        <div class="form-check">
+      <label class="form-check-label">
+          <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value="not_"
+                        name="balance_name"
+                        {% if 'not_' in request.GET|get_item:"balance_name" %} checked {% endif %}
+                >
+          Δε εχουν υπολοιπο
+          <span class="form-check-sign">
+              <span class="check"></span>
+          </span>
+      </label>
+  </div>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Εσοδα</h4>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'analysis:income_analysis' %}" class="btn btn-success">Αναλυση Εσοδων</a>
+                        <a href="{% url 'analysis:store_inventory' %}" class="btn btn-info pull-right">Απογραφη</a>
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Εξοδα</h4>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'analysis:outcome_analysis' %}" class="btn btn-danger">Αναλυση Εξόδων</a>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Ισολογισμος</h4>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'analysis:balance_sheet' %}" class="btn btn-warning">Αναλυση Εσοδων - Εξοδων</a>
+                        <a href="{% url 'analysis:cash_row' %}" class="btn btn-info pull-right">Ταμειακη Ροη</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+{% endblock %}

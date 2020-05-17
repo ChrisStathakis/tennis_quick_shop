@@ -1,0 +1,431 @@
+{% extends 'dashboard.html' %}  {% load render_table from django_tables2 %}
+
+
+{% block content %}
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Συνολικα Εξοδα περιοδου <span style='color:red'> {{ total_expenses }} {{ currency }}</span></h4>
+                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            Filters
+                        </a>
+                        <a href="{{ request.path }}" class="btn btn-danger">Καθαρισμος</a>
+                        <a href="{{ back_url }}" class="btn btn-warning pull-right">Επιστροφη</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="collapse" id="collapseExample">
+                            <form method="get" class="form">
+                                 <div class="row">
+                                      {% include 'filters/my_filters.html' %}
+                                 </div>
+                                 <button type="submit" class="btn btn-"><i class="fa fa-save"></i> Αποθηκευση </button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">
+                    <div class='row'>
+                        <div class='col-md-4'>
+                            <canvas id="totalChart" width="400" height="400"></canvas>
+                        </div>
+                        <div class='col-md-8' >
+                            <canvas id="lineChart" width="400" height="400"></canvas>
+                        </div>
+                    </div>
+                    
+                </h4>
+              </div>
+              <div class="card-body">
+                <div class='row'>
+                    <div class='col-4'>
+                        <h4>Προμηθευτες </h4>
+                        <ul class="nav nav-tabs" id="vendorTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab-vendor" data-toggle="tab" href="#home-tab-vendor_" role="tab"
+                                   aria-controls="home" aria-selected="true">Προμηθευτές</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab-vendor" data-toggle="tab" href="#profile-tab-vendor_" role="tab"
+                                   aria-controls="profile" aria-selected="false">Αναλυση Ανα Μηνα</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent" style='height:600px;overflow: scroll;'>
+                          <div class="tab-pane fade show active" id="home-tab-vendor_" role="tabpanel" aria-labelledby="home-tab">
+                              <table class='table table-bordered' >
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Προμηθευτης</th>
+                                        <th class="table-warning">Συνολο {{ total_invoices }} {{ currency }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    {% for vendor in analysis_invoices %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ vendor.vendor__title }}</td>
+                                            <td>{{ vendor.total }} </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                          </div>
+                          <div class="tab-pane fade" id="profile-tab-vendor_" role="tabpanel" aria-labelledby="profile-tab">
+                              <table class='table table-bordered'>
+                                  <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Μηνας</th>
+                                        <th>Αξια</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for month in analysis_invoices_per_month %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ month.month }}</td>
+                                            <td>{{ month.total }} {{ currency }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                              </table>
+                          </div>
+
+                        </div>
+                    </div>
+                    <div class='col-4'>
+                        <h4>Μισθοδοσια </h4>
+                        <ul class="nav nav-tabs" id="vendorTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab-payroll" data-toggle="tab" href="#home-tab-payroll_" role="tab"
+                                   aria-controls="home" aria-selected="true">Προμηθευτές</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab-payroll" data-toggle="tab" href="#profile-tab-payroll_" role="tab"
+                                   aria-controls="profile" aria-selected="false">Αναλυση Ανα Μηνα</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                          <div class="tab-pane fade show active" id="home-tab-payroll_" role="tabpanel" aria-labelledby="home-tab">
+                              <table class='table table-bordered'>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Υπαλληλος</th>
+                                    <th class="table-warning">Συνολο {{ total_payroll }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for ele in payroll_analysis %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ ele.person__title }}</td>
+                                        <td>{{ ele.total }} {{ currency }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                          </div>
+                          <div class="tab-pane fade" id="profile-tab-payroll_" role="tabpanel" aria-labelledby="profile-tab">
+                              <table class='table table-bordered'>
+                                  <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Μηνας</th>
+                                        <th>Αξια</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for month in payroll_analysis_per_month %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ month.month }}</td>
+                                            <td>{{ month.total }} {{ currency }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                              </table>
+                          </div>
+
+                        </div>
+                        
+                    </div>
+                    <div class='col-4'>
+                        <h4>Λογαριασμοί</h4>
+                        <ul class="nav nav-tabs" id="billTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab-bill" data-toggle="tab" href="#home-tab-bill_" role="tab"
+                                   aria-controls="home" aria-selected="true">Προμηθευτές</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab-bill" data-toggle="tab" href="#profile-tab-bill_" role="tab"
+                                   aria-controls="profile" aria-selected="false">Αναλυση Ανα Μηνα</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                          <div class="tab-pane fade show active" id="home-tab-bill_" role="tabpanel" aria-labelledby="home-tab">
+                              <table class='table table-bordered'>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Λογαριασμος</th>
+                                        <th class="table-warning">Συνολο {{ total_bills }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for vendor in analysis_bills %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ vendor.category__title }}</td>
+                                            <td>{{ vendor.total }} {{ currency }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                          </div>
+                          <div class="tab-pane fade" id="profile-tab-bill_" role="tabpanel" aria-labelledby="profile-tab">
+                              <table class='table table-bordered'>
+                                  <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Μηνας</th>
+                                        <th>Αξια</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for month in analysis_bills_per_month %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ month.month }}</td>
+                                            <td>{{ month.total }} {{ currency }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                              </table>
+                          </div>
+
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <h4>Γενικα Εξοδα</h4>
+                        <ul class="nav nav-tabs" id="vendorTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab-general" data-toggle="tab" href="#home-tab-general_" role="tab"
+                                   aria-controls="home" aria-selected="true">Γενικα Εξοδα</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab-general" data-toggle="tab" href="#profile-tab-general_" role="tab"
+                                   aria-controls="profile" aria-selected="false">Αναλυση Ανα Μηνα</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent" style='height:600px;overflow: scroll;'>
+                          <div class="tab-pane fade show active" id="home-tab-general_" role="tabpanel" aria-labelledby="home-tab">
+                              <table class='table table-bordered' >
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Κατηγορια</th>
+                                        <th class="table-warning">Συνολο {{ total_invoices }} {{ currency }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    {% for vendor in generic_expenses_analysis %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ vendor.category__title }}</td>
+                                            <td>{{ vendor.total }} {{ currency }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                          </div>
+                          <div class="tab-pane fade" id="profile-tab-general_" role="tabpanel" aria-labelledby="profile-tab">
+                              <table class='table table-bordered'>
+                                  <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Μηνας</th>
+                                        <th>Αξια</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for month in generic_expenses_analysis_per_month %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ month.month }}</td>
+                                            <td>{{ month.total }} {{ currency }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                              </table>
+                          </div>
+
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <h4>Συνολα</h4>
+                        <table class="table table-bordered  table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Ημερομηνια</th>
+                                    <th>Τιμολογια</th>
+                                    <th>Λογαριασμοι</th>
+                                    <th>Μισθοδοσια</th>
+                                    <th>Γενικα Εξοδα</th>
+                                    <th>Συνολο</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for ele in result_per_months %}
+                                    <tr>
+                                        <td>{{ ele.month }}</td>
+                                        <td>{{ ele.invoice }} {{ currency }}</td>
+                                        <td>{{ ele.bills }} {{ currency }}</td>
+                                        <td>{{ ele.payroll }} {{ currency }}</td>
+                                        <td>{{ ele.generic }} {{ currency }}</td>
+                                        <td class="table-warning">{{ ele.total }} {{ currency }}</td>
+                                    </tr>
+                                {% endfor %}
+                                    <tr>
+                                        <td class="table-warning">--</td>
+                                        <td class="table-warning">{{ total_invoices }} {{ currency }}</td>
+                                        <td class="table-warning">{{ total_bills }} {{ currency }}</td>
+                                        <td class="table-warning">{{ total_payroll }} {{ currency }}</td>
+                                        <td class="table-warning">{{ total_generic }} {{ currency }}</td>
+                                        <td class="table-danger">{{ total_expenses }} {{ currency }}</td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" id="modal_area">
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM=" crossorigin="anonymous"></script>
+    <script>
+var ctx = document.getElementById('totalChart');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Συνολικα Εξοδα','Συνολο Λογαριασμών', 'Συνολο Μισθοδοσιας', 'Συνολο Προμηθευτών', 'Διαφορα Εξοδα'],
+        datasets: [{
+            label: '# Σε Ευρω',
+            data: [{{ total_expenses }}, {{ total_bills }}, {{ total_payroll}}, {{ total_invoices }}, {{ total_total_generic }}],
+            backgroundColor: [
+                'red',
+                'blue',
+                'green',
+                'yellow',
+                'purple'
+                
+                
+            ],
+            borderColor: [
+                'red',
+                'blue',
+                'green',
+                'yellow',
+                'purple'
+                
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
+
+<script>
+var ctx = document.getElementById('lineChart');
+var myChart = new Chart(ctx, {
+    type: 'line',
+		data: {
+			labels: [{% for ele in months %} {% if forloop.last %} '{{ ele }}'{% else %} '{{ele}}', {% endif %} {% endfor %}],
+			datasets: [{
+				label: 'Συνολο',
+				backgroundColor: 'red',
+				borderColor: 'red',
+				fill: false,
+				data:[{% for ele in result_per_months %} {% if forloop.last %} {{ ele.total }}{% else %} {{ele.total}}, {% endif %} {% endfor %}],
+            },
+            {
+				label: 'Λογαριαμοί',
+				backgroundColor: 'blue',
+				borderColor: 'blue',
+				fill: false,
+				data:[{% for ele in result_per_months %} {% if forloop.last %} {{ ele.bills }}{% else %} {{ele.bills}}, {% endif %} {% endfor %}],
+			},
+            {
+				label: 'Μισθοδοσια',
+				backgroundColor: 'green',
+				borderColor: 'green',
+				fill: false,
+				data:[{% for ele in result_per_months %} {% if forloop.last %} {{ ele.payroll }}{% else %} {{ele.payroll}}, {% endif %} {% endfor %}],
+			},
+			    {
+				label: 'Προμηθευτες',
+				backgroundColor: 'yellow',
+				borderColor: 'yellow',
+				fill: false,
+				data:[{% for ele in result_per_months %} {% if forloop.last %} {{ ele.invoice }}{% else %} {{ele.invoice}}, {% endif %} {% endfor %}],
+			},
+
+
+
+            {
+				label: 'Γενικα Εξοδα',
+				backgroundColor: 'teal',
+				borderColor: 'teal',
+				fill: false,
+				data:[{% for ele in result_per_months %} {% if forloop.last %} {{ ele.generic }}{% else %} {{ele.generic}}, {% endif %} {% endfor %}],
+			}
+            ]
+		},
+		options: {
+			responsive: true,
+            maintainAspectRatio: false,
+			title: {
+				display: true,
+				text: 'Αναλυση Ανα Μηνα'
+			},
+			scales: {
+				xAxes: [{
+					display: true,
+				}],
+				yAxes: [{
+					display: true,
+					type: 'logarithmic',
+				}]
+			}
+		}
+});
+</script>
+{% endblock %}

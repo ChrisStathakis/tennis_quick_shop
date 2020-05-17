@@ -1,0 +1,117 @@
+{% extends 'dashboard.html' %}  {% load render_table from django_tables2 %}
+
+
+{% block content %}
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            Filters
+                        </a>
+                        <a href="{{ request.path }}" class="btn btn-danger">Καθαρισμος</a>
+                        
+                    </div>
+                    <div class="card-body">
+                        <div class="collapse" id="collapseExample">
+                            <form method="get" class="form">
+                                 <div class="row">
+                                      {% include 'filters/my_filters.html' %}
+                                 </div>
+                                 <button type="submit" class="btn btn-"><i class="fa fa-save"></i> Αποθηκευση </button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title"> {{ table_title }}</h4>
+                  <a href="{{ create_url }}" class="btn btn-success btn-round btn-move-right">Δημιουργια</a>
+                    {% if extra_buttons %}
+                        <a href="{% url 'print_list' %}" target="_blank" class="btn btn-info pull-right "><i class="fa fa-print"> </i></a>
+                        <button data-href="{% url 'ajax_calculate_balance' %}" class='btn btn-primary pull-right calculate_button'>Υπολογισμος</button>
+
+                    {% endif %}
+                    {% if report_button %}
+                        <button data-href="{{ report_url }}" class='btn btn-primary pull-right report_button'>Report</button>
+                    {% endif %}
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                    {% render_table queryset_table %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" id="modal_area">
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $('.quick_view').click(function (evt) {
+            evt.preventDefault();
+            $('#modal_area').empty();
+            const my_btn = $(this);
+            const url = my_btn.attr('data-href');
+            $.ajax({
+                method: 'GET',
+                dataType: 'json',
+                url: url,
+
+                success: function (data) {
+                    $('#modal_area').html(data.result);
+                    $('#quick_view_modal').modal('show');
+                }
+        })
+        })
+    </script>
+
+    <script>
+      $('.calculate_button').click(function (evt) {
+        evt.preventDefault();
+            $('#modal_area').empty();
+            const my_btn = $(this);
+            const url = my_btn.attr('data-href');
+            $.ajax({
+                method: 'GET',
+                dataType: 'json',
+                url: url,
+
+                success: function (data) {
+                    $('#modal_area').html(data.result);
+                    $('#quick_view_modal').modal('show');
+                }
+        })
+        });
+
+        $('.report_button').click(function(evt){
+          evt.preventDefault();
+          $('#modal_area').empty();
+          const myBtn = $(this);
+          const url = myBtn.attr('data-href');
+          $.ajax({
+            method: 'GET',
+            dataType: 'json',
+            url: url,
+
+            success: function(data){
+              $('#modal_area').html(data.result);
+              $('#quick_view_modal').modal('show');
+            }
+          })
+        })
+    </script>
+
+
+{% endblock %}
