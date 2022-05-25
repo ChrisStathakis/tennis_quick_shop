@@ -37,7 +37,7 @@ pika==0.9.14
 Pillow==7.0.0
 psycopg2==2.8.4
 psycopg2-binary==2.8.4
-PyJWT==1.7.1
+PyJWT==2.4.0
 pyOpenSSL==19.1.0
 pyparsing==2.2.0
 python-crontab==2.4.0
